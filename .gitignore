@@ -3,3 +3,4 @@ nbproject/private/
 dist/
 *.class
 .idea/
+/build/
