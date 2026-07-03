@@ -64,10 +64,12 @@ public class TelaMenu extends javax.swing.JFrame {
         btEmprestimo.setBackground(new java.awt.Color(0, 102, 204));
         btEmprestimo.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btEmprestimo.setText("Empéstimos");
+        btEmprestimo.addActionListener(this::btEmprestimoActionPerformed);
 
         btSair.setBackground(new java.awt.Color(255, 0, 0));
         btSair.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btSair.setText("Sair");
+        btSair.addActionListener(this::btSairActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,16 +131,34 @@ public class TelaMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroUsuarioActionPerformed
-
+        TelaCadastroUsuario usuario = new TelaCadastroUsuario();
+        usuario.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btCadastroUsuarioActionPerformed
 
     private void btRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRelatorioActionPerformed
-
+        TelaRelatorio relatorio = new TelaRelatorio();
+        relatorio.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btRelatorioActionPerformed
 
     private void btCadastroLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroLivroActionPerformed
-
+        TelaCadastroLivro livro = new TelaCadastroLivro();
+        livro.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btCadastroLivroActionPerformed
+
+    private void btEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEmprestimoActionPerformed
+        TelaEmprestimo emprestimo = new TelaEmprestimo();
+        emprestimo.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btEmprestimoActionPerformed
+
+    private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
+        TelaLogin login = new TelaLogin();
+        login.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btSairActionPerformed
 
     /**
      * @param args the command line arguments

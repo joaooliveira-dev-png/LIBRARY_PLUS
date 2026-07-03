@@ -54,10 +54,10 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lbTipoRelatorio" min="-2" max="-2" attributes="0"/>
                               <Component id="txtTipoRelatorio" max="32767" attributes="0"/>
-                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextField2" alignment="0" pref="186" max="32767" attributes="0"/>
+                              <Component id="lbDataInicial" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbDataFinal" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDataInicial" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtDataFinal" alignment="0" pref="186" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -85,13 +85,13 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtTipoRelatorio" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbDataInicial" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtDataInicial" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbDataFinal" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtDataFinal" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="40" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btGerarRelatorio" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -130,7 +130,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtTipoRelatorio">
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="lbDataInicial">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="sansserif" size="15" style="0"/>
@@ -138,7 +138,7 @@
             <Property name="text" type="java.lang.String" value="Data Inicial: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JLabel" name="lbDataFinal">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="sansserif" size="15" style="0"/>
@@ -146,9 +146,9 @@
             <Property name="text" type="java.lang.String" value="Data FInal:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="txtDataInicial">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="txtDataFinal">
         </Component>
         <Component class="javax.swing.JButton" name="btGerarRelatorio">
           <Properties>
@@ -160,6 +160,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Gerar Relatorio"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGerarRelatorioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btExportar">
           <Properties>
@@ -171,6 +174,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Exportar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btExportarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btVoltar">
           <Properties>
@@ -179,6 +185,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Voltar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btVoltarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joaovitor
@@ -66,13 +68,16 @@ public class TelaCadastroLivro extends javax.swing.JFrame {
         btSalvar.setBackground(new java.awt.Color(51, 153, 82));
         btSalvar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btSalvar.setText("Salvar");
+        btSalvar.addActionListener(this::btSalvarActionPerformed);
 
         btLimpar.setBackground(new java.awt.Color(255, 153, 0));
         btLimpar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btLimpar.setText("Limpar");
+        btLimpar.addActionListener(this::btLimparActionPerformed);
 
         btVoltar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.addActionListener(this::btVoltarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -153,6 +158,48 @@ public class TelaCadastroLivro extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        if (txtTituloLivro.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Informe o título.");
+        txtTituloLivro.requestFocus();
+        return;
+    }
+
+    if (txtAutor.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Informe o autor.");
+        txtAutor.requestFocus();
+        return;
+    }
+
+    if (txtEditora.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Informe a editora.");
+        txtEditora.requestFocus();
+        return;
+    }
+
+    if (txtQuantidade.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Informe a quantidade.");
+        txtQuantidade.requestFocus();
+        return;
+    }
+
+    JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+    }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        txtTituloLivro.setText("");
+        txtAutor.setText("");
+        txtEditora.setText("");
+        txtQuantidade.setText("");
+        txtTituloLivro.requestFocus();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        TelaMenu menu = new TelaMenu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
      * @param args the command line arguments

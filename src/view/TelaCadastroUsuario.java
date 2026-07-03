@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joaovitor
@@ -61,11 +63,14 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
 
         btSalvar.setBackground(new java.awt.Color(51, 153, 82));
         btSalvar.setText("Salvar");
+        btSalvar.addActionListener(this::btSalvarActionPerformed);
 
         btLimpar.setBackground(new java.awt.Color(255, 153, 0));
         btLimpar.setText("Limpar");
+        btLimpar.addActionListener(this::btLimparActionPerformed);
 
         btVoltar.setText("Voltar");
+        btVoltar.addActionListener(this::btVoltarActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -152,6 +157,41 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        if(txtNome.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o nome");
+            txtNome.requestFocus();
+            return;
+        }
+        
+        if(txtEmail.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o e-mail");
+            txtEmail.requestFocus();
+            return;
+        }
+        
+        if(txtTelefone.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o telefone");
+            txtTelefone.requestFocus();
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
+    }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtTelefone.setText("");
+        txtNome.requestFocus();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        TelaMenu menu = new TelaMenu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
      * @param args the command line arguments

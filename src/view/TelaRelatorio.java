@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joaovitor
@@ -33,10 +35,10 @@ public class TelaRelatorio extends javax.swing.JFrame {
         lbSubTitulo = new javax.swing.JLabel();
         lbTipoRelatorio = new javax.swing.JLabel();
         txtTipoRelatorio = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        lbDataInicial = new javax.swing.JLabel();
+        lbDataFinal = new javax.swing.JLabel();
+        txtDataInicial = new javax.swing.JTextField();
+        txtDataFinal = new javax.swing.JTextField();
         btGerarRelatorio = new javax.swing.JButton();
         btExportar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
@@ -52,22 +54,25 @@ public class TelaRelatorio extends javax.swing.JFrame {
         lbTipoRelatorio.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
         lbTipoRelatorio.setText("Tipo de relatório:");
 
-        jLabel4.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
-        jLabel4.setText("Data Inicial: ");
+        lbDataInicial.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        lbDataInicial.setText("Data Inicial: ");
 
-        jLabel5.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
-        jLabel5.setText("Data FInal:");
+        lbDataFinal.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        lbDataFinal.setText("Data FInal:");
 
         btGerarRelatorio.setBackground(new java.awt.Color(51, 153, 82));
         btGerarRelatorio.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btGerarRelatorio.setText("Gerar Relatorio");
+        btGerarRelatorio.addActionListener(this::btGerarRelatorioActionPerformed);
 
         btExportar.setBackground(new java.awt.Color(255, 153, 0));
         btExportar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btExportar.setText("Exportar");
+        btExportar.addActionListener(this::btExportarActionPerformed);
 
         btVoltar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.addActionListener(this::btVoltarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,10 +92,10 @@ public class TelaRelatorio extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbTipoRelatorio)
                             .addComponent(txtTipoRelatorio)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)))
+                            .addComponent(lbDataInicial)
+                            .addComponent(lbDataFinal)
+                            .addComponent(txtDataInicial)
+                            .addComponent(txtDataFinal, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(btGerarRelatorio)
@@ -112,13 +117,13 @@ public class TelaRelatorio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(lbDataInicial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addComponent(jLabel5)
+                .addComponent(lbDataFinal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btGerarRelatorio)
@@ -140,6 +145,38 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarRelatorioActionPerformed
+        if(txtTipoRelatorio.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o tipo de relatório");
+            txtTipoRelatorio.requestFocus();
+            return;
+        }
+        
+        if(txtDataInicial.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe a data inicial");
+            txtDataInicial.requestFocus();
+            return;
+        }
+        
+        if(txtDataFinal.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe a data final");
+            txtDataFinal.requestFocus();
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(this, "Relatório salvo com sucesso!");
+    }//GEN-LAST:event_btGerarRelatorioActionPerformed
+
+    private void btExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExportarActionPerformed
+        JOptionPane.showMessageDialog(this, "Relatório exportado para PDF com sucesso!");
+    }//GEN-LAST:event_btExportarActionPerformed
+
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        TelaMenu menu = new TelaMenu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,14 +207,14 @@ public class TelaRelatorio extends javax.swing.JFrame {
     private javax.swing.JButton btExportar;
     private javax.swing.JButton btGerarRelatorio;
     private javax.swing.JButton btVoltar;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lbDataFinal;
+    private javax.swing.JLabel lbDataInicial;
     private javax.swing.JLabel lbSubTitulo;
     private javax.swing.JLabel lbTipoRelatorio;
     private javax.swing.JLabel lbTitulo;
+    private javax.swing.JTextField txtDataFinal;
+    private javax.swing.JTextField txtDataInicial;
     private javax.swing.JTextField txtTipoRelatorio;
     // End of variables declaration//GEN-END:variables
 }

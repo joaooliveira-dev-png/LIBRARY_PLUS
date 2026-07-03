@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joaovitor
@@ -71,13 +73,16 @@ public class TelaEmprestimo extends javax.swing.JFrame {
         btRegistrar.setBackground(new java.awt.Color(51, 153, 82));
         btRegistrar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btRegistrar.setText("Registrar");
+        btRegistrar.addActionListener(this::btRegistrarActionPerformed);
 
         btLimpar.setBackground(new java.awt.Color(255, 153, 0));
         btLimpar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btLimpar.setText("Limpar");
+        btLimpar.addActionListener(this::btLimparActionPerformed);
 
         btVoltar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.addActionListener(this::btVoltarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,6 +171,55 @@ public class TelaEmprestimo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRegistrarActionPerformed
+        if(txtUsuario.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o usuário");
+            txtUsuario.requestFocus();
+            return;
+        }
+        
+        if(txtLivro.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o livro");
+            txtLivro.requestFocus();
+            return;
+        }
+        
+        if(txtDataEmprestimo.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe a data de empréstimo");
+            txtDataEmprestimo.requestFocus();
+            return;
+        }
+        
+        if(txtDataDevolucao.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe a data de devolução");
+            txtDataDevolucao.requestFocus();
+            return;
+        }
+        
+        if(txtStatus.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o status");
+            txtStatus.requestFocus();
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
+    }//GEN-LAST:event_btRegistrarActionPerformed
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        txtUsuario.setText("");
+        txtLivro.setText("");
+        txtDataEmprestimo.setText("");
+        txtDataDevolucao.setText("");
+        txtStatus.setText("");
+        txtUsuario.requestFocus();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        TelaMenu menu = new TelaMenu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
      * @param args the command line arguments
