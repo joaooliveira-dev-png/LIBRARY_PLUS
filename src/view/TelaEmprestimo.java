@@ -4,7 +4,15 @@
  */
 package view;
 
+import dao.EmprestimoDAO;
+import dao.LivroDAO;
+import dao.UsuarioDAO;
 import javax.swing.JOptionPane;
+import model.Emprestimo;
+import model.Funcionario;
+import model.Livro;
+import model.Usuario;
+import util.Sessao;
 
 /**
  *
@@ -56,10 +64,10 @@ public class TelaEmprestimo extends javax.swing.JFrame {
         lbSubTitulo.setText("Registro de Emprestimos");
 
         lbUsuario.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
-        lbUsuario.setText("Usuário:");
+        lbUsuario.setText("ID Usuário:");
 
         lbLivro.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
-        lbLivro.setText("Livro:");
+        lbLivro.setText("ID Livro:");
 
         lbDataEmprestimo.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
         lbDataEmprestimo.setText("Data de Empréstimo:");
@@ -173,35 +181,76 @@ public class TelaEmprestimo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRegistrarActionPerformed
-        if(txtUsuario.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o usuário");
-            txtUsuario.requestFocus();
+        String usuario = txtUsuario.getText().trim();
+        String livro = txtLivro.getText().trim();
+        String dataEm = txtDataEmprestimo.getText().trim();
+        String dataDe = txtDataDevolucao.getText().trim();
+        String status = txtStatus.getText().trim();
+        
+        if(usuario.isEmpty() 
+               || livro.isEmpty() 
+               || dataEm.isEmpty() 
+               ||dataDe.isEmpty()
+               || status.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos");
             return;
         }
         
-        if(txtLivro.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o livro");
-            txtLivro.requestFocus();
+        int usuarioInt;
+        int livroInt;
+                
+        try{
+            usuarioInt = Integer.parseInt(usuario);
+            livroInt = Integer.parseInt(livro);
+        }catch(NumberFormatException erro){
+            JOptionPane.showMessageDialog(this, "Os IDs precisam ser números inteiros");
             return;
         }
         
-        if(txtDataEmprestimo.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe a data de empréstimo");
-            txtDataEmprestimo.requestFocus();
+        UsuarioDAO daoUser = new UsuarioDAO();
+        Usuario u = daoUser.listarPorId(usuarioInt);
+            
+        if(u == null){
+            JOptionPane.showMessageDialog(this, "Usuário não encontrado");
             return;
         }
         
-        if(txtDataDevolucao.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe a data de devolução");
-            txtDataDevolucao.requestFocus();
+        LivroDAO daoBook = new LivroDAO();
+        Livro l = daoBook.listarPorId(livroInt);
+        
+        if(l == null){
+            JOptionPane.showMessageDialog(this, "Livro não encontrado");
             return;
         }
         
-        if(txtStatus.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o status");
-            txtStatus.requestFocus();
+        if(l.getQuantidade() <= 0){
+            JOptionPane.showMessageDialog(this, "Não há exemplares disponiveis deste livro");
             return;
         }
+        
+        Funcionario fun = Sessao.getFuncionarioLogado();
+        
+        EmprestimoDAO daoEm = new EmprestimoDAO();
+        Emprestimo em = new Emprestimo();
+        
+        em.setIdUsuario(usuarioInt);
+        em.setIdLivro(livroInt);
+        em.setIdFuncionario(fun.getId());
+        em.setDataEmprestimo(dataEm);
+        em.setDataDevolucao(dataDe);
+        em.setStatus(status);
+        
+        daoEm.salvar(em);
+        
+        l.setQuantidade(l.getQuantidade() - 1);
+        daoBook.atualizar(l);
+        
+        txtUsuario.setText("");
+        txtLivro.setText("");
+        txtDataEmprestimo.setText("");
+        txtDataDevolucao.setText("");
+        txtStatus.setText("");
+        txtUsuario.requestFocus();
         
         JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
     }//GEN-LAST:event_btRegistrarActionPerformed
