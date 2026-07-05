@@ -4,7 +4,9 @@
  */
 package view;
 
+import dao.LivroDAO;
 import javax.swing.JOptionPane;
+import model.Livro;
 
 /**
  *
@@ -160,31 +162,43 @@ public class TelaCadastroLivro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if (txtTituloLivro.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Informe o título.");
+        String titulo = txtTituloLivro.getText().trim();
+        String autor = txtAutor.getText().trim();
+        String editora = txtEditora.getText().trim();
+        String quantidadeTexto = txtQuantidade.getText().trim();
+        
+        if(titulo.isEmpty() || autor.isEmpty() || editora.isEmpty() || quantidadeTexto.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
+            return;
+        }
+        
+        int quantidade;
+        
+        try{
+            quantidade = Integer.parseInt(quantidadeTexto);
+        } catch(NumberFormatException erro){
+            JOptionPane.showMessageDialog(this, "A quantidade deve ser um número inteiro");
+            return;
+        }
+        
+        Livro l = new Livro();
+        
+        l.setTitulo(titulo);
+        l.setAutor(autor);
+        l.setEditora(editora);
+        l.setQuantidade(quantidade);
+        
+        LivroDAO dao = new LivroDAO();
+        dao.salvar(l);
+        
+        JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+
+        txtTituloLivro.setText("");
+        txtAutor.setText("");
+        txtEditora.setText("");
+        txtQuantidade.setText("");
+
         txtTituloLivro.requestFocus();
-        return;
-    }
-
-    if (txtAutor.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Informe o autor.");
-        txtAutor.requestFocus();
-        return;
-    }
-
-    if (txtEditora.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Informe a editora.");
-        txtEditora.requestFocus();
-        return;
-    }
-
-    if (txtQuantidade.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Informe a quantidade.");
-        txtQuantidade.requestFocus();
-        return;
-    }
-
-    JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
