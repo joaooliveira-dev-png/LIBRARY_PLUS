@@ -7,7 +7,7 @@
 - MySQL / MariaDB
 - Git e GitHub
 
-## Desenvolvedore
+## Desenvolvedor
 - João Vitor
 
 ## Objetivo do software
