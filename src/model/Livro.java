@@ -51,24 +51,5 @@ public class Livro {
         this.quantidade = quantidade;
     }
 
-    public void diminuirQuantidade() {
-        if (quantidade > 0) {
-            quantidade--;
-        }
-    }
 
-    public void aumentarQuantidade() {
-        quantidade++;
-    }
-
-    @Override
-    public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", editora='" + editora + '\'' +
-                ", quantidade=" + quantidade +
-                '}';
-    }
 }

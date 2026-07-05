@@ -42,11 +42,5 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public void consultarHistorico() {
-        System.out.println("Consultando histórico...");
-    }
 
-    public void buscarLivro() {
-        System.out.println("Buscando livro...");
-    }
 }

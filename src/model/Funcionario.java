@@ -51,20 +51,6 @@ public class Funcionario {
         this.cargo = cargo;
     }
 
-    public void cadastrarLivro() {
-        System.out.println("Livro cadastrado.");
-    }
 
-    public void cadastrarUsuario() {
-        System.out.println("Usuário cadastrado.");
-    }
-
-    public void registrarEmprestimo() {
-        System.out.println("Empréstimo registrado.");
-    }
-
-    public void registrarDevolucao() {
-        System.out.println("Devolução registrada.");
-    }
 
 }

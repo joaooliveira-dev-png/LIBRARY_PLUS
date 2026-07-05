@@ -35,13 +35,6 @@ public class Relatorio {
     public void setDataGeracao(Date dataGeracao) {
         this.dataGeracao = dataGeracao;
     }
-    
-    public void gerarRelatorio() {
-        System.out.println("Relatório gerado.");
-    }
 
-    public void exportarPDF() {
-        System.out.println("Relatório exportado em PDF.");
-    }
 
 }
