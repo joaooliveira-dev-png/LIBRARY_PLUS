@@ -4,7 +4,9 @@
  */
 package view;
 
+import dao.UsuarioDAO;
 import javax.swing.JOptionPane;
+import model.Usuario;
 
 /**
  *
@@ -159,25 +161,31 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if(txtNome.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o nome");
-            txtNome.requestFocus();
+        String nome = txtNome.getText().trim();
+        String email = txtEmail.getText().trim();
+        String telefone = txtTelefone.getText().trim();
+        
+        if(nome.isEmpty() || email.isEmpty() || telefone.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos");
             return;
         }
         
-        if(txtEmail.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o e-mail");
-            txtEmail.requestFocus();
-            return;
-        }
+        Usuario u = new Usuario();
         
-        if(txtTelefone.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o telefone");
-            txtTelefone.requestFocus();
-            return;
-        }
+        u.setNome(nome);
+        u.setEmail(email);
+        u.setTelefone(telefone);
+        
+        UsuarioDAO dao = new UsuarioDAO();
+        dao.salvar(u);
         
         JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
+        
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtTelefone.setText("");
+
+        txtNome.requestFocus();
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
