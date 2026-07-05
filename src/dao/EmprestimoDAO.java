@@ -148,6 +148,37 @@ public class EmprestimoDAO {
 
         return null;
     }
+    
+    public List<Emprestimo> buscarPorPeriodo(String dataInicial, String dataFinal) {
+    List<Emprestimo> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM emprestimo WHERE data_emprestimo BETWEEN ? AND ?";
+
+    try {
+        stmt = conn.prepareStatement(sql);
+        
+        stmt.setString(1, dataInicial);
+        stmt.setString(2, dataFinal);
+
+        ResultSet rs = stmt.executeQuery();
+
+        while(rs.next()){
+            Emprestimo e = new Emprestimo();
+            e.setIdUsuario(rs.getInt("idUsuario"));
+            e.setIdLivro(rs.getInt("idLivro"));
+            e.setDataEmprestimo(rs.getString("data_emprestimo"));
+            e.setDataDevolucao(rs.getString("data_devolucao"));
+            e.setStatus(rs.getString("status"));
+
+            lista.add(e);
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+
+    return lista;
+}
 
     public void atualizar(Emprestimo e) {
 
