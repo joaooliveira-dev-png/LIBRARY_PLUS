@@ -4,6 +4,11 @@
  */
 package view;
 
+import dao.FuncionarioDAO;
+import javax.swing.JOptionPane;
+import model.Funcionario;
+import util.Sessao;
+
 /**
  *
  * @author joaovitor
@@ -32,9 +37,9 @@ public class TelaLogin extends javax.swing.JFrame {
         lbTitulo = new javax.swing.JLabel();
         lbUsuario = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        lbSenha = new javax.swing.JLabel();
+        btEntrar = new javax.swing.JButton();
+        txtSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,13 +49,13 @@ public class TelaLogin extends javax.swing.JFrame {
         lbUsuario.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
         lbUsuario.setText("Usuário:");
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
-        jLabel1.setText("Senha:");
+        lbSenha.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        lbSenha.setText("Senha:");
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 204));
-        jButton1.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btEntrar.setBackground(new java.awt.Color(0, 102, 204));
+        btEntrar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        btEntrar.setText("Entrar");
+        btEntrar.addActionListener(this::btEntrarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -59,14 +64,13 @@ public class TelaLogin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(89, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(lbSenha)
                     .addComponent(lbUsuario)
                     .addComponent(lbTitulo)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btEntrar)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
                 .addGap(85, 85, 85))
         );
         jPanel1Layout.setVerticalGroup(
@@ -79,11 +83,11 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(jLabel1)
+                .addComponent(lbSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btEntrar)
                 .addGap(30, 30, 30))
         );
 
@@ -101,11 +105,34 @@ public class TelaLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaMenu menu = new TelaMenu();
-        menu.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
+      String usuario = txtUsuario.getText().trim();
+      String senha = String.valueOf(txtSenha.getPassword()).trim();
+      
+      if(usuario.isEmpty() || senha.isEmpty()){
+          JOptionPane.showMessageDialog(this, "Preencha todos os campos");
+          return;
+      }
+      
+      FuncionarioDAO dao = new FuncionarioDAO();
+      
+      Funcionario funcionario = dao.autenticar(usuario, senha);
+      
+      if(funcionario != null){
+          
+          Sessao.setFuncionarioLogado(funcionario);
+          
+          JOptionPane.showMessageDialog(this, "Bem-Vindo " + funcionario.getNome());
+          
+          TelaMenu menu = new TelaMenu();
+          menu.setVisible(true);
+          dispose();
+          
+      }else {
+          JOptionPane.showMessageDialog(this, "Usuário ou Senha inválidos");
+      }
+      
+    }//GEN-LAST:event_btEntrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,47 +160,12 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btEntrar1;
-    private javax.swing.JButton btEntrar2;
-    private javax.swing.JButton btEntrar3;
-    private javax.swing.JButton btEntrar4;
-    private javax.swing.JButton btEntrar5;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btEntrar;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel lbSenha1;
-    private javax.swing.JLabel lbSenha2;
-    private javax.swing.JLabel lbSenha3;
-    private javax.swing.JLabel lbSenha4;
-    private javax.swing.JLabel lbSenha5;
+    private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel lbTitulo;
-    private javax.swing.JLabel lbTitulo1;
-    private javax.swing.JLabel lbTitulo2;
-    private javax.swing.JLabel lbTitulo3;
-    private javax.swing.JLabel lbTitulo4;
-    private javax.swing.JLabel lbTitulo5;
     private javax.swing.JLabel lbUsuario;
-    private javax.swing.JLabel lbUsuario1;
-    private javax.swing.JLabel lbUsuario2;
-    private javax.swing.JLabel lbUsuario3;
-    private javax.swing.JLabel lbUsuario4;
-    private javax.swing.JLabel lbUsuario5;
-    private javax.swing.JTextField txtSenha1;
-    private javax.swing.JTextField txtSenha2;
-    private javax.swing.JTextField txtSenha3;
-    private javax.swing.JTextField txtSenha4;
-    private javax.swing.JTextField txtSenha5;
+    private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUsuario;
-    private javax.swing.JTextField txtUsuario1;
-    private javax.swing.JTextField txtUsuario2;
-    private javax.swing.JTextField txtUsuario3;
-    private javax.swing.JTextField txtUsuario4;
-    private javax.swing.JTextField txtUsuario5;
     // End of variables declaration//GEN-END:variables
 }
