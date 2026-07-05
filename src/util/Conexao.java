@@ -8,8 +8,8 @@ import java.sql.SQLException;
 public class Conexao {
     
     private static final String URL = "jdbc:mysql://localhost:3306/library_plus";
-    private static final String USER = "Joao";
-    private static final String PASSWORD = "joao123";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
     
     
     public Connection conectar(){
