@@ -1,10 +1,14 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
 
+import dao.EmprestimoDAO;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Emprestimo;
 
 /**
  *
@@ -40,8 +44,9 @@ public class TelaRelatorio extends javax.swing.JFrame {
         txtDataInicial = new javax.swing.JTextField();
         txtDataFinal = new javax.swing.JTextField();
         btGerarRelatorio = new javax.swing.JButton();
-        btExportar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaRelatorio = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,71 +70,92 @@ public class TelaRelatorio extends javax.swing.JFrame {
         btGerarRelatorio.setText("Gerar Relatorio");
         btGerarRelatorio.addActionListener(this::btGerarRelatorioActionPerformed);
 
-        btExportar.setBackground(new java.awt.Color(255, 153, 0));
-        btExportar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        btExportar.setText("Exportar");
-        btExportar.addActionListener(this::btExportarActionPerformed);
-
         btVoltar.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
+
+        tabelaRelatorio.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tipo de Relatório", "Data de Empréstimo", "Data de Devolução"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tabelaRelatorio);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbTitulo)
-                .addGap(81, 81, 81))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTipoRelatorio)
+                            .addComponent(txtTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDataFinal)
+                            .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDataInicial))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(lbSubTitulo))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbTipoRelatorio)
-                            .addComponent(txtTipoRelatorio)
-                            .addComponent(lbDataInicial)
-                            .addComponent(lbDataFinal)
-                            .addComponent(txtDataInicial)
-                            .addComponent(txtDataFinal, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
+                        .addGap(268, 268, 268)
                         .addComponent(btGerarRelatorio)
                         .addGap(18, 18, 18)
-                        .addComponent(btExportar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btVoltar)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(btVoltar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(lbTitulo)))
+                .addGap(0, 60, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(193, 193, 193)
+                .addComponent(lbSubTitulo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(14, 14, 14)
                 .addComponent(lbTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbSubTitulo)
-                .addGap(27, 27, 27)
-                .addComponent(lbTipoRelatorio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbDataInicial)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
+                .addComponent(lbSubTitulo)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbTipoRelatorio)
+                    .addComponent(lbDataInicial))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(lbDataFinal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btGerarRelatorio)
-                    .addComponent(btExportar)
                     .addComponent(btVoltar))
-                .addGap(21, 21, 21))
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -148,29 +174,45 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void btGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarRelatorioActionPerformed
         if(txtTipoRelatorio.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe o tipo de relatório");
-            txtTipoRelatorio.requestFocus();
-            return;
-        }
-        
-        if(txtDataInicial.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe a data inicial");
-            txtDataInicial.requestFocus();
-            return;
-        }
-        
-        if(txtDataFinal.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Informe a data final");
-            txtDataFinal.requestFocus();
-            return;
-        }
-        
-        JOptionPane.showMessageDialog(this, "Relatório salvo com sucesso!");
-    }//GEN-LAST:event_btGerarRelatorioActionPerformed
+        JOptionPane.showMessageDialog(this, "Informe o tipo de relatório");
+        txtTipoRelatorio.requestFocus();
+        return;
+    }
 
-    private void btExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExportarActionPerformed
-        JOptionPane.showMessageDialog(this, "Relatório exportado para PDF com sucesso!");
-    }//GEN-LAST:event_btExportarActionPerformed
+    if(txtDataInicial.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this, "Informe a data inicial");
+        txtDataInicial.requestFocus();
+        return;
+    }
+
+    if(txtDataFinal.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this, "Informe a data final");
+        txtDataFinal.requestFocus();
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) tabelaRelatorio.getModel();
+    model.setRowCount(0);
+
+    EmprestimoDAO dao = new EmprestimoDAO();
+
+    List<Emprestimo> lista = dao.buscarPorPeriodo(
+        txtDataInicial.getText(),
+        txtDataFinal.getText()
+    );
+
+    for(Emprestimo e : lista){
+        model.addRow(new Object[]{
+            e.getIdUsuario(),
+            e.getIdLivro(),
+            e.getDataEmprestimo(),
+            e.getDataDevolucao(),
+            e.getStatus()
+        });
+    }
+
+    JOptionPane.showMessageDialog(this, "Relatório gerado com sucesso!");
+    }//GEN-LAST:event_btGerarRelatorioActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         TelaMenu menu = new TelaMenu();
@@ -204,15 +246,16 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btExportar;
     private javax.swing.JButton btGerarRelatorio;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbDataFinal;
     private javax.swing.JLabel lbDataInicial;
     private javax.swing.JLabel lbSubTitulo;
     private javax.swing.JLabel lbTipoRelatorio;
     private javax.swing.JLabel lbTitulo;
+    private javax.swing.JTable tabelaRelatorio;
     private javax.swing.JTextField txtDataFinal;
     private javax.swing.JTextField txtDataInicial;
     private javax.swing.JTextField txtTipoRelatorio;
