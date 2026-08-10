@@ -141,18 +141,9 @@ public class FuncionarioDAO {
                 return f;
                 }
             }
-            
         } catch (SQLException e) {
             System.out.println("Erro ao autenticar: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                System.out.println("Erro ao fechar recursos: " + e.getMessage());
-            }
         }
-
-        return null;
-        }
+            return null;
+    }
 }
