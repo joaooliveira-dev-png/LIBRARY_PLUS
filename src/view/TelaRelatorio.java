@@ -4,7 +4,7 @@
  */
 package view;
 
-import dao.EmprestimoDAO;
+import controller.RelatorioController;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -79,11 +79,11 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tipo de Relatório", "Data de Empréstimo", "Data de Devolução"
+                "ID Usuário", "ID Livro", "Data Empréstimo", "Data Devolução", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -153,7 +153,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btGerarRelatorio)
                     .addComponent(btVoltar))
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -194,9 +194,9 @@ public class TelaRelatorio extends javax.swing.JFrame {
     DefaultTableModel model = (DefaultTableModel) tabelaRelatorio.getModel();
     model.setRowCount(0);
 
-    EmprestimoDAO dao = new EmprestimoDAO();
+    RelatorioController controller = new RelatorioController();
 
-    List<Emprestimo> lista = dao.buscarPorPeriodo(
+    List<Emprestimo> lista = controller.buscarPorPeriodo(
         txtDataInicial.getText(),
         txtDataFinal.getText()
     );

@@ -4,9 +4,7 @@
  */
 package view;
 
-import dao.EmprestimoDAO;
-import dao.LivroDAO;
-import dao.UsuarioDAO;
+import controller.EmprestimoController;
 import javax.swing.JOptionPane;
 import model.Emprestimo;
 import model.Funcionario;
@@ -206,53 +204,35 @@ public class TelaEmprestimo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Os IDs precisam ser números inteiros");
             return;
         }
-        
-        UsuarioDAO daoUser = new UsuarioDAO();
-        Usuario u = daoUser.listarPorId(usuarioInt);
-            
-        if(u == null){
-            JOptionPane.showMessageDialog(this, "Usuário não encontrado");
-            return;
-        }
-        
-        LivroDAO daoBook = new LivroDAO();
-        Livro l = daoBook.listarPorId(livroInt);
-        
-        if(l == null){
-            JOptionPane.showMessageDialog(this, "Livro não encontrado");
-            return;
-        }
-        
-        if(l.getQuantidade() <= 0){
-            JOptionPane.showMessageDialog(this, "Não há exemplares disponiveis deste livro");
-            return;
-        }
-        
-        Funcionario fun = Sessao.getFuncionarioLogado();
-        
-        EmprestimoDAO daoEm = new EmprestimoDAO();
-        Emprestimo em = new Emprestimo();
-        
-        em.setIdUsuario(usuarioInt);
-        em.setIdLivro(livroInt);
-        em.setIdFuncionario(fun.getId());
-        em.setDataEmprestimo(dataEm);
-        em.setDataDevolucao(dataDe);
-        em.setStatus(status);
-        
-        daoEm.salvar(em);
-        
-        l.setQuantidade(l.getQuantidade() - 1);
-        daoBook.atualizar(l);
-        
-        txtUsuario.setText("");
-        txtLivro.setText("");
-        txtDataEmprestimo.setText("");
-        txtDataDevolucao.setText("");
-        txtStatus.setText("");
-        txtUsuario.requestFocus();
-        
-        JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
+
+         Funcionario fun = Sessao.getFuncionarioLogado();
+
+         Emprestimo em = new Emprestimo();
+
+         em.setIdUsuario(usuarioInt);
+         em.setIdLivro(livroInt);
+         em.setIdFuncionario(fun.getId());
+         em.setDataEmprestimo(dataEm);
+         em.setDataDevolucao(dataDe);
+         em.setStatus(status);
+
+         EmprestimoController controller = new EmprestimoController();
+
+         try {
+             controller.registrarEmprestimo(em);
+
+             JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
+
+             txtUsuario.setText("");
+             txtLivro.setText("");
+             txtDataEmprestimo.setText("");
+             txtDataDevolucao.setText("");
+             txtStatus.setText("");
+             txtUsuario.requestFocus();
+
+         } catch (IllegalArgumentException erro) {
+             JOptionPane.showMessageDialog(this, erro.getMessage());
+         }
     }//GEN-LAST:event_btRegistrarActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed

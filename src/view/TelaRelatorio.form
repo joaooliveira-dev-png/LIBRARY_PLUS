@@ -110,7 +110,7 @@
                       <Component id="btGerarRelatorio" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="402" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -199,10 +199,12 @@
             <Component class="javax.swing.JTable" name="tabelaRelatorio">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="3" rowCount="0">
-                    <Column editable="false" title="Tipo de Relat&#xf3;rio" type="java.lang.Object"/>
-                    <Column editable="false" title="Data de Empr&#xe9;stimo" type="java.lang.Object"/>
-                    <Column editable="false" title="Data de Devolu&#xe7;&#xe3;o" type="java.lang.Object"/>
+                  <Table columnCount="5" rowCount="0">
+                    <Column editable="false" title="ID Usu&#xe1;rio" type="java.lang.Object"/>
+                    <Column editable="false" title="ID Livro" type="java.lang.Object"/>
+                    <Column editable="false" title="Data Empr&#xe9;stimo" type="java.lang.Object"/>
+                    <Column editable="true" title="Data Devolu&#xe7;&#xe3;o" type="java.lang.Object"/>
+                    <Column editable="true" title="Status" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>

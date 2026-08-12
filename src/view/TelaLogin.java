@@ -4,7 +4,7 @@
  */
 package view;
 
-import dao.FuncionarioDAO;
+import controller.FuncionarioController;
 import javax.swing.JOptionPane;
 import model.Funcionario;
 import util.Sessao;
@@ -114,9 +114,8 @@ public class TelaLogin extends javax.swing.JFrame {
           return;
       }
       
-      FuncionarioDAO dao = new FuncionarioDAO();
-      
-      Funcionario funcionario = dao.autenticar(usuario, senha);
+      FuncionarioController controller = new FuncionarioController();
+      Funcionario funcionario = controller.autenticar(usuario, senha);
       
       if(funcionario != null){
           

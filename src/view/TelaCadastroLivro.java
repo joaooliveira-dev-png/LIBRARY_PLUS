@@ -4,7 +4,7 @@
  */
 package view;
 
-import dao.LivroDAO;
+import controller.LivroController;
 import javax.swing.JOptionPane;
 import model.Livro;
 
@@ -188,8 +188,8 @@ public class TelaCadastroLivro extends javax.swing.JFrame {
         l.setEditora(editora);
         l.setQuantidade(quantidade);
         
-        LivroDAO dao = new LivroDAO();
-        dao.salvar(l);
+        LivroController controller = new LivroController();
+        controller.cadastrar(l);
         
         JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
 

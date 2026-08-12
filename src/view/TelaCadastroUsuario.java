@@ -4,7 +4,7 @@
  */
 package view;
 
-import dao.UsuarioDAO;
+import controller.UsuarioController;
 import javax.swing.JOptionPane;
 import model.Usuario;
 
@@ -175,9 +175,9 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         u.setNome(nome);
         u.setEmail(email);
         u.setTelefone(telefone);
-        
-        UsuarioDAO dao = new UsuarioDAO();
-        dao.salvar(u);
+
+        UsuarioController controller = new UsuarioController();
+        controller.cadastrar(u);
         
         JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
         
