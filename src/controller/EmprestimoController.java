@@ -21,14 +21,14 @@ public class EmprestimoController {
     
     public void registrarEmprestimo(Emprestimo emprestimo) {
 
-    UsuarioDAO daoUser = new UsuarioDAO();
-    Usuario usuario = daoUser.listarPorId(emprestimo.getIdUsuario());
+    daoUsuario = new UsuarioDAO();
+    Usuario usuario = daoUsuario.listarPorId(emprestimo.getIdUsuario());
 
     if (usuario == null) {
         throw new IllegalArgumentException("Usuário não encontrado");
     }
 
-    LivroDAO daoLivro = new LivroDAO();
+    daoLivro = new LivroDAO();
     Livro livro = daoLivro.listarPorId(emprestimo.getIdLivro());
 
     if (livro == null) {
@@ -41,7 +41,7 @@ public class EmprestimoController {
         );
     }
 
-    EmprestimoDAO daoEmprestimo = new EmprestimoDAO();
+    daoEmprestimo = new EmprestimoDAO();
 
     daoEmprestimo.salvar(emprestimo);
 
