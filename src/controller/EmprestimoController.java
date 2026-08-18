@@ -4,6 +4,7 @@ import model.Emprestimo;
 import dao.EmprestimoDAO;
 import dao.LivroDAO;
 import dao.UsuarioDAO;
+import java.util.List;
 import model.Livro;
 import model.Usuario;
 
@@ -48,4 +49,8 @@ public class EmprestimoController {
     livro.setQuantidade(livro.getQuantidade() - 1);
     daoLivro.atualizar(livro);
 }
+    public List<Emprestimo> listar(){
+        return daoEmprestimo.listar();
+    }
+    
 }

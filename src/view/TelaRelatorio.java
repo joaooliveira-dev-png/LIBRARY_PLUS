@@ -37,8 +37,6 @@ public class TelaRelatorio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lbTitulo = new javax.swing.JLabel();
         lbSubTitulo = new javax.swing.JLabel();
-        lbTipoRelatorio = new javax.swing.JLabel();
-        txtTipoRelatorio = new javax.swing.JTextField();
         lbDataInicial = new javax.swing.JLabel();
         lbDataFinal = new javax.swing.JLabel();
         txtDataInicial = new javax.swing.JTextField();
@@ -55,9 +53,6 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
         lbSubTitulo.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         lbSubTitulo.setText("Relatórios");
-
-        lbTipoRelatorio.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
-        lbTipoRelatorio.setText("Tipo de relatório:");
 
         lbDataInicial.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
         lbDataInicial.setText("Data Inicial: ");
@@ -103,28 +98,23 @@ public class TelaRelatorio extends javax.swing.JFrame {
                         .addComponent(jScrollPane1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTipoRelatorio)
-                            .addComponent(txtTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbDataFinal)
-                            .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbDataInicial))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btVoltar)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbDataFinal)
+                                    .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btGerarRelatorio))
+                                .addGap(31, 31, 31)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbDataInicial))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(268, 268, 268)
-                        .addComponent(btGerarRelatorio)
-                        .addGap(18, 18, 18)
-                        .addComponent(btVoltar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(lbTitulo)))
-                .addGap(0, 60, Short.MAX_VALUE))
+                .addGap(140, 140, 140)
+                .addComponent(lbTitulo)
+                .addGap(0, 184, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(193, 193, 193)
                 .addComponent(lbSubTitulo)
@@ -139,21 +129,17 @@ public class TelaRelatorio extends javax.swing.JFrame {
                 .addComponent(lbSubTitulo)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbTipoRelatorio)
-                    .addComponent(lbDataInicial))
+                    .addComponent(lbDataInicial)
+                    .addComponent(lbDataFinal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(lbDataFinal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                    .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btGerarRelatorio)
                     .addComponent(btVoltar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -173,11 +159,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarRelatorioActionPerformed
-        if(txtTipoRelatorio.getText().trim().isEmpty()){
-        JOptionPane.showMessageDialog(this, "Informe o tipo de relatório");
-        txtTipoRelatorio.requestFocus();
-        return;
-    }
+
 
     if(txtDataInicial.getText().trim().isEmpty()){
         JOptionPane.showMessageDialog(this, "Informe a data inicial");
@@ -253,11 +235,9 @@ public class TelaRelatorio extends javax.swing.JFrame {
     private javax.swing.JLabel lbDataFinal;
     private javax.swing.JLabel lbDataInicial;
     private javax.swing.JLabel lbSubTitulo;
-    private javax.swing.JLabel lbTipoRelatorio;
     private javax.swing.JLabel lbTitulo;
     private javax.swing.JTable tabelaRelatorio;
     private javax.swing.JTextField txtDataFinal;
     private javax.swing.JTextField txtDataInicial;
-    private javax.swing.JTextField txtTipoRelatorio;
     // End of variables declaration//GEN-END:variables
 }

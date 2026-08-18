@@ -31,11 +31,23 @@ public class TelaMenu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lbTitulo = new javax.swing.JLabel();
         lbSubTitulo = new javax.swing.JLabel();
-        btCadastroLivro = new javax.swing.JButton();
-        btRelatorio = new javax.swing.JButton();
-        btCadastroUsuario = new javax.swing.JButton();
-        btEmprestimo = new javax.swing.JButton();
-        btSair = new javax.swing.JButton();
+        mbMenu = new javax.swing.JMenuBar();
+        mArquivo = new javax.swing.JMenu();
+        mtEncerrar = new javax.swing.JMenuItem();
+        mtSair = new javax.swing.JMenuItem();
+        mCadastro = new javax.swing.JMenu();
+        mtLivro = new javax.swing.JMenuItem();
+        mtUsuario = new javax.swing.JMenuItem();
+        mConsulta = new javax.swing.JMenu();
+        mtListaLivro = new javax.swing.JMenuItem();
+        mtListaUsuario = new javax.swing.JMenuItem();
+        mtListaFuncionario = new javax.swing.JMenuItem();
+        mtListaEmprestimo = new javax.swing.JMenuItem();
+        mEmprestimo = new javax.swing.JMenu();
+        mtEmprestimo = new javax.swing.JMenuItem();
+        mtDevolucao = new javax.swing.JMenuItem();
+        mRelatorio = new javax.swing.JMenu();
+        mtRelatorio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,76 +57,89 @@ public class TelaMenu extends javax.swing.JFrame {
         lbSubTitulo.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         lbSubTitulo.setText("Bem- Vindo, Funcionário ");
 
-        btCadastroLivro.setBackground(new java.awt.Color(0, 102, 204));
-        btCadastroLivro.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        btCadastroLivro.setText("Cadastrar Livros");
-        btCadastroLivro.addActionListener(this::btCadastroLivroActionPerformed);
-
-        btRelatorio.setBackground(new java.awt.Color(0, 102, 204));
-        btRelatorio.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        btRelatorio.setText("Relatórios");
-        btRelatorio.addActionListener(this::btRelatorioActionPerformed);
-
-        btCadastroUsuario.setBackground(new java.awt.Color(0, 102, 204));
-        btCadastroUsuario.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        btCadastroUsuario.setText("Cadastrar \nUsuário");
-        btCadastroUsuario.setActionCommand("Cadastrar \n\nUsuário");
-        btCadastroUsuario.addActionListener(this::btCadastroUsuarioActionPerformed);
-
-        btEmprestimo.setBackground(new java.awt.Color(0, 102, 204));
-        btEmprestimo.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        btEmprestimo.setText("Empéstimos");
-        btEmprestimo.addActionListener(this::btEmprestimoActionPerformed);
-
-        btSair.setBackground(new java.awt.Color(255, 0, 0));
-        btSair.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        btSair.setText("Sair");
-        btSair.addActionListener(this::btSairActionPerformed);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btCadastroLivro, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btCadastroUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(185, 185, 185)
-                .addComponent(btSair, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 120, Short.MAX_VALUE)
+                .addGap(0, 116, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbTitulo)
                     .addComponent(lbSubTitulo))
-                .addGap(113, 113, 113))
+                .addGap(117, 117, 117))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(55, 55, 55)
                 .addComponent(lbTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(32, 32, 32)
                 .addComponent(lbSubTitulo)
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btCadastroLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btCadastroUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(btSair, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
+
+        mArquivo.setText("Arquivo");
+
+        mtEncerrar.setText("Encerrar sessão");
+        mArquivo.add(mtEncerrar);
+
+        mtSair.setText("Sair");
+        mArquivo.add(mtSair);
+
+        mbMenu.add(mArquivo);
+
+        mCadastro.setText("Cadastros");
+
+        mtLivro.setText("Livro");
+        mtLivro.addActionListener(this::mtLivroActionPerformed);
+        mCadastro.add(mtLivro);
+
+        mtUsuario.setText("Usuário");
+        mtUsuario.addActionListener(this::mtUsuarioActionPerformed);
+        mCadastro.add(mtUsuario);
+
+        mbMenu.add(mCadastro);
+
+        mConsulta.setText("Consultas");
+
+        mtListaLivro.setText("Livro");
+        mtListaLivro.addActionListener(this::mtListaLivroActionPerformed);
+        mConsulta.add(mtListaLivro);
+
+        mtListaUsuario.setText("Usuário");
+        mtListaUsuario.addActionListener(this::mtListaUsuarioActionPerformed);
+        mConsulta.add(mtListaUsuario);
+
+        mtListaFuncionario.setText("Funcionário");
+        mtListaFuncionario.addActionListener(this::mtListaFuncionarioActionPerformed);
+        mConsulta.add(mtListaFuncionario);
+
+        mtListaEmprestimo.setText("Empréstimo");
+        mtListaEmprestimo.addActionListener(this::mtListaEmprestimoActionPerformed);
+        mConsulta.add(mtListaEmprestimo);
+
+        mbMenu.add(mConsulta);
+
+        mEmprestimo.setText("Empréstimos");
+
+        mtEmprestimo.setText("Novo Empréstimo");
+        mtEmprestimo.addActionListener(this::mtEmprestimoActionPerformed);
+        mEmprestimo.add(mtEmprestimo);
+
+        mtDevolucao.setText("Devolução");
+        mEmprestimo.add(mtDevolucao);
+
+        mbMenu.add(mEmprestimo);
+
+        mRelatorio.setText("Relatórios");
+
+        mtRelatorio.setText("Relatório ");
+        mtRelatorio.addActionListener(this::mtRelatorioActionPerformed);
+        mRelatorio.add(mtRelatorio);
+
+        mbMenu.add(mRelatorio);
+
+        setJMenuBar(mbMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,35 +155,45 @@ public class TelaMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btCadastroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroUsuarioActionPerformed
-        TelaCadastroUsuario usuario = new TelaCadastroUsuario();
-        usuario.setVisible(true);
+    private void mtListaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtListaUsuarioActionPerformed
+        new TelaListaUsuario().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btCadastroUsuarioActionPerformed
+    }//GEN-LAST:event_mtListaUsuarioActionPerformed
 
-    private void btRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRelatorioActionPerformed
-        TelaRelatorio relatorio = new TelaRelatorio();
-        relatorio.setVisible(true);
+    private void mtLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtLivroActionPerformed
+        new TelaCadastroLivro().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btRelatorioActionPerformed
+    }//GEN-LAST:event_mtLivroActionPerformed
 
-    private void btCadastroLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroLivroActionPerformed
-        TelaCadastroLivro livro = new TelaCadastroLivro();
-        livro.setVisible(true);
+    private void mtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtUsuarioActionPerformed
+        new TelaCadastroUsuario().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btCadastroLivroActionPerformed
+    }//GEN-LAST:event_mtUsuarioActionPerformed
 
-    private void btEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEmprestimoActionPerformed
-        TelaEmprestimo emprestimo = new TelaEmprestimo();
-        emprestimo.setVisible(true);
+    private void mtListaLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtListaLivroActionPerformed
+        new TelaListaLivro().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btEmprestimoActionPerformed
+    }//GEN-LAST:event_mtListaLivroActionPerformed
 
-    private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
-        TelaLogin login = new TelaLogin();
-        login.setVisible(true);
+    private void mtListaFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtListaFuncionarioActionPerformed
+        new TelaListaFuncionario().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btSairActionPerformed
+    }//GEN-LAST:event_mtListaFuncionarioActionPerformed
+
+    private void mtListaEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtListaEmprestimoActionPerformed
+        new TelaListaEmprestimo().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtListaEmprestimoActionPerformed
+
+    private void mtEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtEmprestimoActionPerformed
+        new TelaCadastroEmprestimo().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtEmprestimoActionPerformed
+
+    private void mtRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtRelatorioActionPerformed
+        new TelaRelatorio().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtRelatorioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,13 +221,25 @@ public class TelaMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btCadastroLivro;
-    private javax.swing.JButton btCadastroUsuario;
-    private javax.swing.JButton btEmprestimo;
-    private javax.swing.JButton btRelatorio;
-    private javax.swing.JButton btSair;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbSubTitulo;
     private javax.swing.JLabel lbTitulo;
+    private javax.swing.JMenu mArquivo;
+    private javax.swing.JMenu mCadastro;
+    private javax.swing.JMenu mConsulta;
+    private javax.swing.JMenu mEmprestimo;
+    private javax.swing.JMenu mRelatorio;
+    private javax.swing.JMenuBar mbMenu;
+    private javax.swing.JMenuItem mtDevolucao;
+    private javax.swing.JMenuItem mtEmprestimo;
+    private javax.swing.JMenuItem mtEncerrar;
+    private javax.swing.JMenuItem mtListaEmprestimo;
+    private javax.swing.JMenuItem mtListaFuncionario;
+    private javax.swing.JMenuItem mtListaLivro;
+    private javax.swing.JMenuItem mtListaUsuario;
+    private javax.swing.JMenuItem mtLivro;
+    private javax.swing.JMenuItem mtRelatorio;
+    private javax.swing.JMenuItem mtSair;
+    private javax.swing.JMenuItem mtUsuario;
     // End of variables declaration//GEN-END:variables
 }

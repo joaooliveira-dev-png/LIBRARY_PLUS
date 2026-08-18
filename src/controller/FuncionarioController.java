@@ -1,6 +1,7 @@
 package controller;
 
 import dao.FuncionarioDAO;
+import java.util.List;
 import model.Funcionario;
 
 public class FuncionarioController {
@@ -13,5 +14,9 @@ public class FuncionarioController {
     
     public Funcionario autenticar(String usuario, String senha){
         return dao.autenticar(usuario, senha);
+    }
+    
+    public List<Funcionario> listar(){
+        return dao.listar();
     }
 }
