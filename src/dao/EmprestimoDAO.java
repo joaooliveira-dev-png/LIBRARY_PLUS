@@ -62,7 +62,7 @@ public class EmprestimoDAO {
         return emprestimos;
     }
 
-    public Emprestimo listarPorId(int id) {
+    public Emprestimo buscarPorId(int id) {
         String sql = "SELECT * FROM emprestimo WHERE id = ?";
 
         try(Connection conn = new Conexao().conectar();

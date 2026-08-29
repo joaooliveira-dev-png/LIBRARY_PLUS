@@ -19,4 +19,8 @@ public class FuncionarioController {
     public List<Funcionario> listar(){
         return dao.listar();
     }
+        
+    public Funcionario buscarPorId(int id){
+        return dao.buscarPorId(id);
+    }    
 }

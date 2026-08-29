@@ -38,17 +38,17 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
         
         model.setRowCount(0);
         
-        for(Emprestimo e : emprestimos){
-            model.addRow(new Object[]{
-                e.getId(),
-                e.getDataEmprestimo(),
-                e.getDataDevolucao(),
-                e.getStatus(),
-                e.getIdLivro(),
-                e.getIdUsuario(),
-                e.getIdFuncionario()
-            });
-        }
+    for(Emprestimo e : emprestimos){
+        model.addRow(new Object[]{
+            e.getId(),
+            e.getDataEmprestimo(),
+            e.getDataDevolucao(),
+            e.getStatus(),
+            e.getIdLivro(),
+            e.getIdUsuario(),
+            e.getIdFuncionario()
+        });
+    }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,6 +64,11 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
         tabelaEmprestimo = new javax.swing.JTable();
         btAtualizar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
+        lbTitulo = new javax.swing.JLabel();
+        lbBsucarID = new javax.swing.JLabel();
+        txtBuscarID = new javax.swing.JTextField();
+        btBuscar = new javax.swing.JButton();
+        btMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,30 +96,60 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
 
+        lbTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbTitulo.setText("LISTA EMPRESTIMO");
+
+        lbBsucarID.setText("Buscar por ID:");
+
+        btBuscar.setText("Buscar");
+
+        btMostrar.setText("Mostrar Todos");
+        btMostrar.addActionListener(this::btMostrarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(241, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btMostrar)
+                .addGap(18, 18, 18)
                 .addComponent(btAtualizar)
-                .addGap(117, 117, 117)
+                .addGap(18, 18, 18)
                 .addComponent(btVoltar)
-                .addGap(233, 233, 233))
+                .addGap(183, 183, 183))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(269, 269, 269)
+                .addComponent(lbTitulo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(lbBsucarID)
+                .addGap(18, 18, 18)
+                .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btBuscar)
+                .addGap(178, 178, 178))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(lbTitulo)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbBsucarID)
+                    .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btVoltar)
                     .addComponent(btAtualizar)
-                    .addComponent(btVoltar))
-                .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(btMostrar))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,6 +175,10 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         carregarEmprestimo();
     }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void btMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarActionPerformed
+        carregarEmprestimo();
+    }//GEN-LAST:event_btMostrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,9 +207,14 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
+    private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btMostrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbBsucarID;
+    private javax.swing.JLabel lbTitulo;
     private javax.swing.JTable tabelaEmprestimo;
+    private javax.swing.JTextField txtBuscarID;
     // End of variables declaration//GEN-END:variables
 }

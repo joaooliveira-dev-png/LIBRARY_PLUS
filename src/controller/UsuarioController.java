@@ -20,7 +20,7 @@ public class UsuarioController {
         return dao.listar();
     }
     
-    public Usuario listaPorId(int id){
-        return dao.listarPorId(id);
+    public Usuario buscarPorId(int id){
+        return dao.buscarPorId(id);
     }
 }

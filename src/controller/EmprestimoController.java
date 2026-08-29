@@ -23,14 +23,14 @@ public class EmprestimoController {
     public void registrarEmprestimo(Emprestimo emprestimo) {
 
     daoUsuario = new UsuarioDAO();
-    Usuario usuario = daoUsuario.listarPorId(emprestimo.getIdUsuario());
+    Usuario usuario = daoUsuario.buscarPorId(emprestimo.getIdUsuario());
 
     if (usuario == null) {
         throw new IllegalArgumentException("Usuário não encontrado");
     }
 
     daoLivro = new LivroDAO();
-    Livro livro = daoLivro.listarPorId(emprestimo.getIdLivro());
+    Livro livro = daoLivro.buscarPorId(emprestimo.getIdLivro());
 
     if (livro == null) {
         throw new IllegalArgumentException("Livro não encontrado");

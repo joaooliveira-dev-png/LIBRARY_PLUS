@@ -20,8 +20,8 @@ public class LivroController {
        return dao.listar();
     }    
     
-    public Livro listarPorId(int id){
-        return dao.listarPorId(id);
+    public Livro buscarPorId(int id){
+        return dao.buscarPorId(id);
     }
     
     

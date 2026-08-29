@@ -18,11 +18,56 @@ public class TelaRelatorio extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaRelatorio.class.getName());
 
+    private RelatorioController controller;
     /**
      * Creates new form TelaRelatorio
      */
     public TelaRelatorio() {
         initComponents();
+        
+        controller = new RelatorioController();
+    }
+    
+    public void carregarRelatorio(){
+        
+        if(txtDataInicial.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe a data inicial");
+            txtDataInicial.requestFocus();
+            return;
+        }
+
+        if(txtDataFinal.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe a data final");
+            txtDataFinal.requestFocus();
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) tabelaRelatorio.getModel();
+        model.setRowCount(0);
+
+        try{ 
+            List<Emprestimo> lista = controller.buscarPorPeriodo(
+            txtDataInicial.getText(),
+            txtDataFinal.getText()
+        );
+
+            for(Emprestimo e : lista){
+                model.addRow(new Object[]{
+                    e.getIdUsuario(),
+                    e.getIdLivro(),
+                    e.getDataEmprestimo(),
+                    e.getDataDevolucao(),
+                    e.getStatus()
+                });
+            } 
+        } catch (IllegalArgumentException e) {
+
+            JOptionPane.showMessageDialog(
+            this,
+            e.getMessage()
+    );
+}
+
     }
 
     /**
@@ -78,7 +123,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -159,41 +204,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarRelatorioActionPerformed
-
-
-    if(txtDataInicial.getText().trim().isEmpty()){
-        JOptionPane.showMessageDialog(this, "Informe a data inicial");
-        txtDataInicial.requestFocus();
-        return;
-    }
-
-    if(txtDataFinal.getText().trim().isEmpty()){
-        JOptionPane.showMessageDialog(this, "Informe a data final");
-        txtDataFinal.requestFocus();
-        return;
-    }
-
-    DefaultTableModel model = (DefaultTableModel) tabelaRelatorio.getModel();
-    model.setRowCount(0);
-
-    RelatorioController controller = new RelatorioController();
-
-    List<Emprestimo> lista = controller.buscarPorPeriodo(
-        txtDataInicial.getText(),
-        txtDataFinal.getText()
-    );
-
-    for(Emprestimo e : lista){
-        model.addRow(new Object[]{
-            e.getIdUsuario(),
-            e.getIdLivro(),
-            e.getDataEmprestimo(),
-            e.getDataDevolucao(),
-            e.getStatus()
-        });
-    }
-
-    JOptionPane.showMessageDialog(this, "Relatório gerado com sucesso!");
+        carregarRelatorio();
     }//GEN-LAST:event_btGerarRelatorioActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed

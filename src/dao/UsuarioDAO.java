@@ -54,7 +54,7 @@ public class UsuarioDAO {
         return usuarios;
     }
     
-    public Usuario listarPorId(int id){
+    public Usuario buscarPorId(int id){
         String sql = "SELECT * FROM usuario WHERE id = ?";
         
         try(Connection conn = new Conexao().conectar();

@@ -55,7 +55,7 @@ public class LivroDAO {
         return livros;
     }
     
-    public Livro listarPorId(int id){
+    public Livro buscarPorId(int id){
         String sql = "SELECT * FROM livro WHERE id = ?";
         
         try(Connection conn = new Conexao().conectar();

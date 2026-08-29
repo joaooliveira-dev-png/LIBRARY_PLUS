@@ -55,7 +55,7 @@ public class FuncionarioDAO {
         return funcionarios;
     }
     
-    public Funcionario listarPorId(int id){
+    public Funcionario buscarPorId(int id){
         String sql = "SELECT * FROM funcionario WHERE id = ?";
         
         try(Connection conn = new Conexao().conectar();

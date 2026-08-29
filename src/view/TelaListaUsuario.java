@@ -6,6 +6,7 @@ package view;
 
 import controller.UsuarioController;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Usuario;
 
@@ -62,6 +63,11 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         tabelaUsuario = new javax.swing.JTable();
         btVoltar = new javax.swing.JButton();
         btAtualizar = new javax.swing.JButton();
+        lbTitulo = new javax.swing.JLabel();
+        lbBuscarID = new javax.swing.JLabel();
+        txtBuscarID = new javax.swing.JTextField();
+        btBuscarID = new javax.swing.JButton();
+        btMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +96,17 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         btAtualizar.setText("Atualizar");
         btAtualizar.addActionListener(this::btAtualizarActionPerformed);
 
+        lbTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbTitulo.setText("LISTA USUÁRIOS");
+
+        lbBuscarID.setText("Buscar por ID:");
+
+        btBuscarID.setText("Buscar");
+        btBuscarID.addActionListener(this::btBuscarIDActionPerformed);
+
+        btMostrar.setText("Mostrar Todos");
+        btMostrar.addActionListener(this::btMostrarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -99,20 +116,42 @@ public class TelaListaUsuario extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btMostrar)
+                .addGap(18, 18, 18)
                 .addComponent(btAtualizar)
-                .addGap(66, 66, 66)
+                .addGap(18, 18, 18)
                 .addComponent(btVoltar)
+                .addGap(38, 38, 38))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(lbBuscarID)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbTitulo)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(btBuscarID)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbBuscarID)
+                    .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscarID))
+                .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btVoltar)
-                    .addComponent(btAtualizar))
+                    .addComponent(btAtualizar)
+                    .addComponent(btMostrar))
                 .addContainerGap())
         );
 
@@ -139,6 +178,41 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
+
+    private void btMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarActionPerformed
+        carregarUsuarios();
+    }//GEN-LAST:event_btMostrarActionPerformed
+
+    private void btBuscarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarIDActionPerformed
+        if(txtBuscarID.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o ID do Usuário");
+            txtBuscarID.requestFocus();
+            return;
+        }
+        
+        try{
+            int id = Integer.parseInt(txtBuscarID.getText().trim());
+            
+            Usuario usuario = controller.buscarPorId(id);
+            
+            DefaultTableModel model = (DefaultTableModel) tabelaUsuario.getModel();
+            
+            model.setRowCount(0);
+            
+           if(usuario != null){ 
+               model.addRow(new Object[]{
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getTelefone()
+                });
+            } else {
+               JOptionPane.showMessageDialog(this, "Usuario não encontrado");
+           }
+        } catch(NumberFormatException erro){
+            JOptionPane.showMessageDialog(this, "Informe um ID válido");
+        }   
+    }//GEN-LAST:event_btBuscarIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,9 +241,14 @@ public class TelaListaUsuario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
+    private javax.swing.JButton btBuscarID;
+    private javax.swing.JButton btMostrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbBuscarID;
+    private javax.swing.JLabel lbTitulo;
     private javax.swing.JTable tabelaUsuario;
+    private javax.swing.JTextField txtBuscarID;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@ package view;
 
 import controller.FuncionarioController;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Funcionario;
 
@@ -62,6 +63,11 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
         tabelaFuncionario = new javax.swing.JTable();
         btAtualizar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
+        lbTitulo = new javax.swing.JLabel();
+        lbBuscarID = new javax.swing.JLabel();
+        txtBuscarID = new javax.swing.JTextField();
+        btBuscar = new javax.swing.JButton();
+        btMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,30 +95,61 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
 
+        lbTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbTitulo.setText("LISTA FUNCIONARIO");
+
+        lbBuscarID.setText("Buscar por ID:");
+
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(this::btBuscarActionPerformed);
+
+        btMostrar.setText("Mostrar Todos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btMostrar)
+                .addGap(18, 18, 18)
                 .addComponent(btAtualizar)
-                .addGap(73, 73, 73)
+                .addGap(18, 18, 18)
                 .addComponent(btVoltar)
-                .addGap(141, 141, 141))
+                .addGap(44, 44, 44))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(lbBuscarID)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbTitulo)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btBuscar)
+                        .addGap(52, 52, 52))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbTitulo)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbBuscarID)
+                    .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btVoltar)
-                    .addComponent(btAtualizar))
-                .addGap(0, 10, Short.MAX_VALUE))
+                    .addComponent(btAtualizar)
+                    .addComponent(btMostrar)
+                    .addComponent(btVoltar))
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,6 +173,50 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         carregarFuncionario();
     }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        if(txtBuscarID.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Informe o ID do livro");
+            txtBuscarID.requestFocus();
+            return;
+        }
+        
+        try {
+
+            int id = Integer.parseInt(txtBuscarID.getText().trim());
+
+            Funcionario fun = controller.buscarPorId(id);
+
+            DefaultTableModel modelo =
+                    (DefaultTableModel) tabelaFuncionario.getModel();
+
+            modelo.setRowCount(0);
+
+            if (fun != null) {
+
+                modelo.addRow(new Object[]{
+                    fun.getId(),
+                    fun.getNome(),
+                    fun.getCargo(),
+                    fun.getUsuario(),
+                });
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Livro não encontrado."
+                );
+            }
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Informe um ID válido."
+            );
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,9 +245,14 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
+    private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btMostrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbBuscarID;
+    private javax.swing.JLabel lbTitulo;
     private javax.swing.JTable tabelaFuncionario;
+    private javax.swing.JTextField txtBuscarID;
     // End of variables declaration//GEN-END:variables
 }
