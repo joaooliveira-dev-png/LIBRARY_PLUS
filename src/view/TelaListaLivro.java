@@ -65,6 +65,7 @@ public class TelaListaLivro extends javax.swing.JFrame {
         txtBuscarID = new javax.swing.JTextField();
         btBuscar = new javax.swing.JButton();
         btMostrarTodos = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,8 +102,13 @@ public class TelaListaLivro extends javax.swing.JFrame {
         btBuscar.setText("Buscar");
         btBuscar.addActionListener(this::btBuscarActionPerformed);
 
+        btMostrarTodos.setBackground(new java.awt.Color(51, 102, 255));
         btMostrarTodos.setText("Mostrar Todos");
         btMostrarTodos.addActionListener(this::btMostrarTodosActionPerformed);
+
+        btExcluir.setBackground(new java.awt.Color(255, 51, 51));
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(this::btExcluirActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -121,18 +127,19 @@ public class TelaListaLivro extends javax.swing.JFrame {
                 .addComponent(btBuscar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btMostrarTodos)
-                        .addGap(18, 18, 18)
-                        .addComponent(btAtualizar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbTitulo)
-                        .addGap(163, 163, 163))))
+                .addContainerGap(180, Short.MAX_VALUE)
+                .addComponent(lbTitulo)
+                .addGap(163, 163, 163))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(btMostrarTodos)
+                .addGap(18, 18, 18)
+                .addComponent(btExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btAtualizar)
+                .addGap(18, 18, 18)
+                .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +157,8 @@ public class TelaListaLivro extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAtualizar)
                     .addComponent(btVoltar)
-                    .addComponent(btMostrarTodos))
+                    .addComponent(btMostrarTodos)
+                    .addComponent(btExcluir))
                 .addGap(9, 9, 9))
         );
 
@@ -169,11 +177,30 @@ public class TelaListaLivro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        carregarLivros();
+        int linhaSelecionada = tabelaLivro.getSelectedRow();
+        
+        if(linhaSelecionada  == -1){
+            JOptionPane.showMessageDialog(this, "Selecione um livro para atualizar");
+            return;
+        }
+        
+        int id = (int) tabelaLivro.getValueAt(linhaSelecionada, 0);
+        
+        Livro livro = controller.buscarPorId(id);
+        
+        if(livro == null){
+            JOptionPane.showMessageDialog(this, "Livro não encontrado");
+            return;
+        }
+        
+        TelaCadastroLivro tela = new TelaCadastroLivro(livro);
+        tela.setVisible(true);
+        dispose();
+
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        TelaCadastroLivro tela = new TelaCadastroLivro();
+        TelaMenu tela = new TelaMenu();
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
@@ -228,6 +255,40 @@ public class TelaListaLivro extends javax.swing.JFrame {
         carregarLivros();
     }//GEN-LAST:event_btMostrarTodosActionPerformed
 
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        int linhaSelecionada = tabelaLivro.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Selecione um livro para excluir."
+            );
+            return;
+        }
+
+        int id = (int) tabelaLivro.getValueAt(linhaSelecionada, 0);
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja realmente excluir este livro?",
+            "Confirmar exclusão",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        controller.excluir(id);
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Livro excluído com sucesso!"
+        );
+
+        carregarLivros();
+    }//GEN-LAST:event_btExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -256,6 +317,7 @@ public class TelaListaLivro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btExcluir;
     private javax.swing.JButton btMostrarTodos;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;

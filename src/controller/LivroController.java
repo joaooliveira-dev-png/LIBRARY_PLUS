@@ -24,5 +24,11 @@ public class LivroController {
         return dao.buscarPorId(id);
     }
     
+    public void atualizar(Livro livro){
+        dao.atualizar(livro);
+    }
     
+    public void excluir(int id){
+        dao.excluir(id);
+    }
 }

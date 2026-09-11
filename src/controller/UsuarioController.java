@@ -23,4 +23,12 @@ public class UsuarioController {
     public Usuario buscarPorId(int id){
         return dao.buscarPorId(id);
     }
+    
+    public void atuzalizar(Usuario usuario){
+        dao.atualizar(usuario);
+    }
+    
+    public void excluir(int id){
+        dao.excluir(id);
+    }
 }

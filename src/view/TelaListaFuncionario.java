@@ -68,6 +68,7 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
         txtBuscarID = new javax.swing.JTextField();
         btBuscar = new javax.swing.JButton();
         btMostrar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,6 +90,7 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelaFuncionario);
 
+        btAtualizar.setBackground(new java.awt.Color(51, 153, 82));
         btAtualizar.setText("Atualizar");
         btAtualizar.addActionListener(this::btAtualizarActionPerformed);
 
@@ -103,7 +105,12 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
         btBuscar.setText("Buscar");
         btBuscar.addActionListener(this::btBuscarActionPerformed);
 
+        btMostrar.setBackground(new java.awt.Color(51, 102, 255));
         btMostrar.setText("Mostrar Todos");
+
+        btExcluir.setBackground(new java.awt.Color(255, 51, 51));
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(this::btExcluirActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -111,8 +118,10 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
                 .addComponent(btMostrar)
+                .addGap(18, 18, 18)
+                .addComponent(btExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btAtualizar)
                 .addGap(18, 18, 18)
@@ -145,9 +154,11 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btAtualizar)
-                    .addComponent(btMostrar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btAtualizar)
+                        .addComponent(btMostrar)
+                        .addComponent(btExcluir))
                     .addComponent(btVoltar))
                 .addGap(17, 17, 17))
         );
@@ -167,11 +178,31 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        
+        TelaMenu tela = new TelaMenu();
+        tela.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        carregarFuncionario();
+        int linhaSelecionada = tabelaFuncionario.getSelectedRow();
+        
+        if(linhaSelecionada  == -1){
+            JOptionPane.showMessageDialog(this, "Selecione um livro para atualizar");
+            return;
+        }
+        
+        int id = (int) tabelaFuncionario.getValueAt(linhaSelecionada, 0);
+        
+        Funcionario funcionario = controller.buscarPorId(id);
+        
+        if(funcionario == null){
+            JOptionPane.showMessageDialog(this, "Usuario não encontrado");
+            return;
+        }
+        
+        TelaCadastroFuncionario tela = new TelaCadastroFuncionario(funcionario);
+        tela.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
@@ -218,6 +249,40 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btBuscarActionPerformed
 
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+                int linhaSelecionada = tabelaFuncionario.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Selecione um funcionário para excluir."
+            );
+            return;
+        }
+
+        int id = (int) tabelaFuncionario.getValueAt(linhaSelecionada, 0);
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja realmente excluir este Funcionário?",
+            "Confirmar exclusão",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        controller.excluir(id);
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Funcionário excluído com sucesso!"
+        );
+
+        carregarFuncionario();
+    }//GEN-LAST:event_btExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -246,6 +311,7 @@ public class TelaListaFuncionario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btExcluir;
     private javax.swing.JButton btMostrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;

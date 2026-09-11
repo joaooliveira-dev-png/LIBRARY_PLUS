@@ -6,6 +6,7 @@ package view;
 
 import controller.EmprestimoController;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Emprestimo;
 
@@ -62,7 +63,7 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaEmprestimo = new javax.swing.JTable();
-        btAtualizar = new javax.swing.JButton();
+        btDevolver = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
         lbBsucarID = new javax.swing.JLabel();
@@ -90,8 +91,9 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelaEmprestimo);
 
-        btAtualizar.setText("Atualizar");
-        btAtualizar.addActionListener(this::btAtualizarActionPerformed);
+        btDevolver.setBackground(new java.awt.Color(51, 153, 82));
+        btDevolver.setText("Devolver");
+        btDevolver.addActionListener(this::btDevolverActionPerformed);
 
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
@@ -103,6 +105,7 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
 
         btBuscar.setText("Buscar");
 
+        btMostrar.setBackground(new java.awt.Color(51, 102, 255));
         btMostrar.setText("Mostrar Todos");
         btMostrar.addActionListener(this::btMostrarActionPerformed);
 
@@ -114,7 +117,7 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btMostrar)
                 .addGap(18, 18, 18)
-                .addComponent(btAtualizar)
+                .addComponent(btDevolver)
                 .addGap(18, 18, 18)
                 .addComponent(btVoltar)
                 .addGap(183, 183, 183))
@@ -147,7 +150,7 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btVoltar)
-                    .addComponent(btAtualizar)
+                    .addComponent(btDevolver)
                     .addComponent(btMostrar))
                 .addContainerGap())
         );
@@ -167,14 +170,76 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        TelaCadastroEmprestimo tela = new TelaCadastroEmprestimo();
+        TelaMenu tela = new TelaMenu();
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
 
-    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        carregarEmprestimo();
-    }//GEN-LAST:event_btAtualizarActionPerformed
+    private void btDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDevolverActionPerformed
+         int linhaSelecionada = tabelaEmprestimo.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Selecione um empréstimo para devolver."
+            );
+            return;
+        }
+
+        int idEmprestimo = (int) tabelaEmprestimo.getValueAt(linhaSelecionada, 0);
+
+        String status = tabelaEmprestimo.getValueAt(linhaSelecionada, 3).toString();
+
+        if ("Devolvido".equalsIgnoreCase(status)) {
+           JOptionPane.showMessageDialog(
+                this,
+                "Este empréstimo já foi devolvido."
+            );
+            return;
+        }
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja registrar a devolução deste empréstimo?",
+            "Confirmar devolução",
+            javax.swing.JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        String dataDevolucao = JOptionPane.showInputDialog(
+            this,
+            "Informe a data da devolução:",
+            "Data de devolução",
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (dataDevolucao == null || dataDevolucao.trim().isEmpty()) {
+            return;
+        }
+
+        try {
+            controller.devolverEmprestimo(
+                idEmprestimo,
+                dataDevolucao.trim()
+            );
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Devolução registrada com sucesso!"
+            );
+
+            carregarEmprestimo();
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(
+                this,
+                e.getMessage()
+            );
+        }
+    }//GEN-LAST:event_btDevolverActionPerformed
 
     private void btMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarActionPerformed
         carregarEmprestimo();
@@ -206,8 +271,8 @@ public class TelaListaEmprestimo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btDevolver;
     private javax.swing.JButton btMostrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;

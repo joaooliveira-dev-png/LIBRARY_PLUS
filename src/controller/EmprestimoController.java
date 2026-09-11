@@ -53,4 +53,29 @@ public class EmprestimoController {
         return daoEmprestimo.listar();
     }
     
+    public void devolverEmprestimo(int idEmprestimo, String dataDevolucao){
+        Emprestimo emprestimo = daoEmprestimo.buscarPorId(idEmprestimo);
+
+        if (emprestimo == null) {
+            throw new IllegalArgumentException("Empréstimo não encontrado.");
+        }
+
+        if ("Devolvido".equalsIgnoreCase(emprestimo.getStatus())) {
+            throw new IllegalArgumentException("Este empréstimo já foi devolvido.");
+        }
+
+        Livro livro = daoLivro.buscarPorId(emprestimo.getIdLivro());
+
+        if (livro == null) {
+            throw new IllegalArgumentException("Livro associado ao empréstimo não foi encontrado.");
+        }
+
+        emprestimo.setDataDevolucao(dataDevolucao);
+        emprestimo.setStatus("Devolvido");
+
+        daoEmprestimo.atualizar(emprestimo);
+
+        livro.setQuantidade(livro.getQuantidade() + 1);
+        daoLivro.atualizar(livro);
+    }
 }

@@ -15,12 +15,27 @@ import model.Usuario;
 public class TelaCadastroUsuario extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastroUsuario.class.getName());
-
+    private UsuarioController controller;
+    private Usuario usuarioEdicao;
     /**
      * Creates new form TelaCadastroUsuario
      */
     public TelaCadastroUsuario() {
         initComponents();
+        controller = new UsuarioController();
+        
+    }
+    
+    public TelaCadastroUsuario(Usuario usuario){
+        initComponents();
+        controller = new UsuarioController();
+        usuarioEdicao = usuario;
+        
+        txtNome.setText(usuario.getNome());
+        txtTelefone.setText(usuario.getTelefone());
+        txtEmail.setText(usuario.getEmail());
+        
+        btSalvar.setText("Atualizar");
     }
 
     /**
@@ -190,10 +205,20 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         u.setEmail(email);
         u.setTelefone(telefone);
 
-        UsuarioController controller = new UsuarioController();
-        controller.cadastrar(u);
+        if(usuarioEdicao == null){
+            
+            controller.cadastrar(u);
         
-        JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
+        
+        } else {
+        
+            u.setId(usuarioEdicao.getId());
+            
+            controller.atuzalizar(u);
+            
+            JOptionPane.showMessageDialog(this, "Usuario atualizado com sucesso!");
+        }
         
         txtNome.setText("");
         txtEmail.setText("");

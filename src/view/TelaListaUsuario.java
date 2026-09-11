@@ -68,6 +68,7 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         txtBuscarID = new javax.swing.JTextField();
         btBuscarID = new javax.swing.JButton();
         btMostrar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,8 +105,13 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         btBuscarID.setText("Buscar");
         btBuscarID.addActionListener(this::btBuscarIDActionPerformed);
 
+        btMostrar.setBackground(new java.awt.Color(51, 102, 255));
         btMostrar.setText("Mostrar Todos");
         btMostrar.addActionListener(this::btMostrarActionPerformed);
+
+        btExcluir.setBackground(new java.awt.Color(255, 51, 51));
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(this::btExcluirActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,12 +119,14 @@ public class TelaListaUsuario extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btMostrar)
                 .addGap(18, 18, 18)
+                .addComponent(btExcluir)
+                .addGap(16, 16, 16)
                 .addComponent(btAtualizar)
                 .addGap(18, 18, 18)
                 .addComponent(btVoltar)
@@ -151,7 +159,8 @@ public class TelaListaUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btVoltar)
                     .addComponent(btAtualizar)
-                    .addComponent(btMostrar))
+                    .addComponent(btMostrar)
+                    .addComponent(btExcluir))
                 .addContainerGap())
         );
 
@@ -170,11 +179,29 @@ public class TelaListaUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        carregarUsuarios();
+        int linhaSelecionada = tabelaUsuario.getSelectedRow();
+        
+        if(linhaSelecionada  == -1){
+            JOptionPane.showMessageDialog(this, "Selecione um livro para atualizar");
+            return;
+        }
+        
+        int id = (int) tabelaUsuario.getValueAt(linhaSelecionada, 0);
+        
+        Usuario usuario = controller.buscarPorId(id);
+        
+        if(usuario == null){
+            JOptionPane.showMessageDialog(this, "Usuario não encontrado");
+            return;
+        }
+        
+        TelaCadastroUsuario tela = new TelaCadastroUsuario(usuario);
+        tela.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        TelaCadastroUsuario tela = new TelaCadastroUsuario();
+        TelaMenu tela = new TelaMenu();
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
@@ -214,6 +241,40 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         }   
     }//GEN-LAST:event_btBuscarIDActionPerformed
 
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+                int linhaSelecionada = tabelaUsuario.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Selecione um usuário para excluir."
+            );
+            return;
+        }
+
+        int id = (int) tabelaUsuario.getValueAt(linhaSelecionada, 0);
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja realmente excluir este usuário?",
+            "Confirmar exclusão",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        controller.excluir(id);
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Usuário excluído com sucesso!"
+        );
+
+        carregarUsuarios();
+    }//GEN-LAST:event_btExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +303,7 @@ public class TelaListaUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btBuscarID;
+    private javax.swing.JButton btExcluir;
     private javax.swing.JButton btMostrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;

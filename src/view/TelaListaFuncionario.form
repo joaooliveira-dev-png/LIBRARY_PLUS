@@ -40,8 +40,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jScrollPane1" alignment="1" pref="500" max="32767" attributes="0"/>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   <Component id="btMostrar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btExcluir" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btAtualizar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -81,10 +83,13 @@
                   <EmptySpace pref="36" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="275" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btAtualizar" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="btMostrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="btAtualizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btMostrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="btVoltar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               </Group>
@@ -115,6 +120,9 @@
         </Container>
         <Component class="javax.swing.JButton" name="btAtualizar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="52" green="99" red="33" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Atualizar"/>
           </Properties>
           <Events>
@@ -154,8 +162,22 @@
         </Component>
         <Component class="javax.swing.JButton" name="btMostrar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="66" red="33" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Mostrar Todos"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btExcluir">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Excluir"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btExcluirActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -91,6 +91,7 @@ public class TelaCadastroEmprestimo extends javax.swing.JFrame {
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
 
+        btListar.setBackground(new java.awt.Color(51, 102, 255));
         btListar.setText("Listar");
         btListar.addActionListener(this::btListarActionPerformed);
 

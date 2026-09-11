@@ -15,12 +15,27 @@ import model.Livro;
 public class TelaCadastroLivro extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastroLivro.class.getName());
-
+    private LivroController controller;
+    private Livro livroEdicao;
     /**
      * Creates new form TelaCadastroLivro
      */
     public TelaCadastroLivro() {
         initComponents();
+        controller = new LivroController();
+    }
+    
+    public TelaCadastroLivro(Livro livro){
+        initComponents();
+        controller = new LivroController();
+        livroEdicao = livro;
+        
+        txtTituloLivro.setText(livro.getTitulo());
+        txtAutor.setText(livro.getAutor());
+        txtEditora.setText(livro.getEditora());
+        txtQuantidade.setText(String.valueOf(livro.getQuantidade()));
+        
+        btSalvar.setText("Atualizar");
     }
 
     /**
@@ -198,11 +213,21 @@ public class TelaCadastroLivro extends javax.swing.JFrame {
         l.setEditora(editora);
         l.setQuantidade(quantidade);
         
-        LivroController controller = new LivroController();
-        controller.cadastrar(l);
+        if(livroEdicao == null){
+            
+            controller.cadastrar(l);
         
-        JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
-
+            JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+        
+        } else {
+            
+            l.setId(livroEdicao.getId());
+            
+            controller.atualizar(l);
+            
+            JOptionPane.showMessageDialog(this, "Livro atualizado com sucesso!");
+        }
+        
         txtTituloLivro.setText("");
         txtAutor.setText("");
         txtEditora.setText("");

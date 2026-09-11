@@ -4,6 +4,9 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import util.Sessao;
+
 /**
  *
  * @author joaovitor
@@ -81,9 +84,11 @@ public class TelaMenu extends javax.swing.JFrame {
         mArquivo.setText("Arquivo");
 
         mtEncerrar.setText("Encerrar sessão");
+        mtEncerrar.addActionListener(this::mtEncerrarActionPerformed);
         mArquivo.add(mtEncerrar);
 
         mtSair.setText("Sair");
+        mtSair.addActionListener(this::mtSairActionPerformed);
         mArquivo.add(mtSair);
 
         mbMenu.add(mArquivo);
@@ -127,6 +132,7 @@ public class TelaMenu extends javax.swing.JFrame {
         mEmprestimo.add(mtEmprestimo);
 
         mtDevolucao.setText("Devolução");
+        mtDevolucao.addActionListener(this::mtDevolucaoActionPerformed);
         mEmprestimo.add(mtDevolucao);
 
         mbMenu.add(mEmprestimo);
@@ -194,6 +200,45 @@ public class TelaMenu extends javax.swing.JFrame {
         new TelaRelatorio().setVisible(true);
         dispose();
     }//GEN-LAST:event_mtRelatorioActionPerformed
+
+    private void mtEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtEncerrarActionPerformed
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja encerrar a sessão atual?",
+            "Encerrar sessão",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        Sessao.encerrarSessao();
+
+        new TelaLogin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtEncerrarActionPerformed
+
+    private void mtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtSairActionPerformed
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja realmente sair do sistema?",
+            "Sair",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        Sessao.encerrarSessao();
+        System.exit(0);
+    }//GEN-LAST:event_mtSairActionPerformed
+
+    private void mtDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtDevolucaoActionPerformed
+        new TelaListaEmprestimo().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtDevolucaoActionPerformed
 
     /**
      * @param args the command line arguments
