@@ -4,9 +4,9 @@
  */
 package view;
 
-import controller.FuncionarioController;
+import controller.UsuarioController;
 import javax.swing.JOptionPane;
-import model.Funcionario;
+import model.Usuario;
 import util.Sessao;
 
 /**
@@ -114,14 +114,14 @@ public class TelaLogin extends javax.swing.JFrame {
           return;
       }
       
-      FuncionarioController controller = new FuncionarioController();
-      Funcionario funcionario = controller.autenticar(usuario, senha);
+      UsuarioController controller = new UsuarioController();
+      Usuario usuarioLogado = controller.autenticar(usuario, senha);
       
-      if(funcionario != null){
+      if(usuarioLogado != null){
           
-          Sessao.setFuncionarioLogado(funcionario);
+          Sessao.setUsuarioLogado(usuarioLogado);
           
-          JOptionPane.showMessageDialog(this, "Bem-Vindo " + funcionario.getNome());
+          JOptionPane.showMessageDialog(this, "Bem-Vindo " + usuarioLogado.getUsuario());
           
           TelaMenu menu = new TelaMenu();
           menu.setVisible(true);

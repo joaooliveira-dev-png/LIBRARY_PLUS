@@ -40,7 +40,7 @@ public class TelaMenu extends javax.swing.JFrame {
         mtSair = new javax.swing.JMenuItem();
         mCadastro = new javax.swing.JMenu();
         mtLivro = new javax.swing.JMenuItem();
-        mtUsuario = new javax.swing.JMenuItem();
+        mtFuncionario = new javax.swing.JMenuItem();
         mConsulta = new javax.swing.JMenu();
         mtListaLivro = new javax.swing.JMenuItem();
         mtListaUsuario = new javax.swing.JMenuItem();
@@ -99,9 +99,9 @@ public class TelaMenu extends javax.swing.JFrame {
         mtLivro.addActionListener(this::mtLivroActionPerformed);
         mCadastro.add(mtLivro);
 
-        mtUsuario.setText("Usuário");
-        mtUsuario.addActionListener(this::mtUsuarioActionPerformed);
-        mCadastro.add(mtUsuario);
+        mtFuncionario.setText("Funcionário");
+        mtFuncionario.addActionListener(this::mtFuncionarioActionPerformed);
+        mCadastro.add(mtFuncionario);
 
         mbMenu.add(mCadastro);
 
@@ -165,16 +165,6 @@ public class TelaMenu extends javax.swing.JFrame {
         new TelaListaUsuario().setVisible(true);
         dispose();
     }//GEN-LAST:event_mtListaUsuarioActionPerformed
-
-    private void mtLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtLivroActionPerformed
-        new TelaCadastroLivro().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_mtLivroActionPerformed
-
-    private void mtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtUsuarioActionPerformed
-        new TelaCadastroUsuario().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_mtUsuarioActionPerformed
 
     private void mtListaLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtListaLivroActionPerformed
         new TelaListaLivro().setVisible(true);
@@ -240,6 +230,16 @@ public class TelaMenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_mtDevolucaoActionPerformed
 
+    private void mtLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtLivroActionPerformed
+        new TelaCadastroLivro().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtLivroActionPerformed
+
+    private void mtFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtFuncionarioActionPerformed
+        new TelaCadastroFuncionario().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mtFuncionarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -278,6 +278,7 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mtDevolucao;
     private javax.swing.JMenuItem mtEmprestimo;
     private javax.swing.JMenuItem mtEncerrar;
+    private javax.swing.JMenuItem mtFuncionario;
     private javax.swing.JMenuItem mtListaEmprestimo;
     private javax.swing.JMenuItem mtListaFuncionario;
     private javax.swing.JMenuItem mtListaLivro;
@@ -285,6 +286,5 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mtLivro;
     private javax.swing.JMenuItem mtRelatorio;
     private javax.swing.JMenuItem mtSair;
-    private javax.swing.JMenuItem mtUsuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,10 +5,10 @@
 package view;
 
 import controller.EmprestimoController;
+import controller.FuncionarioController;
 import javax.swing.JOptionPane;
 import model.Emprestimo;
 import model.Funcionario;
-import model.Livro;
 import model.Usuario;
 import util.Sessao;
 
@@ -212,13 +212,21 @@ public class TelaCadastroEmprestimo extends javax.swing.JFrame {
             return;
         }
 
-         Funcionario fun = Sessao.getFuncionarioLogado();
+         Usuario usuarioLogado = Sessao.getUsuarioLogado();
+
+        FuncionarioController funcionarioController = new FuncionarioController();
+        Funcionario funcionario = funcionarioController.buscarPorUsuarioId(usuarioLogado.getId());
+
+        if(funcionario == null){
+            JOptionPane.showMessageDialog(this, "Funcionário não encontrado.");
+            return;
+        }
 
          Emprestimo em = new Emprestimo();
 
          em.setIdUsuario(usuarioInt);
          em.setIdLivro(livroInt);
-         em.setIdFuncionario(fun.getId());
+         em.setIdFuncionario(funcionario.getId());
          em.setDataEmprestimo(dataEm);
          em.setDataDevolucao(dataDe);
          em.setStatus(status);

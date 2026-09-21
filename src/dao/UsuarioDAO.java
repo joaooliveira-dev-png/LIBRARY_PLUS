@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,21 +13,29 @@ import util.Conexao;
 public class UsuarioDAO {
     
 
-    public void salvar(Usuario u){
-        String sql = "INSERT INTO usuario(nome, email, telefone) VALUES(?,?,?)";
+    public int salvar(Usuario u){
+        String sql = "INSERT INTO usuario(usuario, senha) VALUES(?,?)";
         
         try(Connection conn = new Conexao().conectar();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
-            stmt.setString(1, u.getNome());
-            stmt.setString(2, u.getEmail());
-            stmt.setString(3, u.getTelefone());
+            stmt.setString(1, u.getUsuario());
+            stmt.setString(2, u.getSenha());
             
             stmt.executeUpdate();
             
+            ResultSet rs = stmt.getGeneratedKeys();
+            
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                u.setId(id);
+                return id;
+            }
+            
         }catch(SQLException erro){
             System.out.println("Erro ao salvar Usuário : " + erro.getMessage());
-        } 
+        }
+        return 0;
     }
     
     
@@ -42,9 +51,8 @@ public class UsuarioDAO {
                 Usuario u = new Usuario();
                 
                 u.setId(rs.getInt("id"));
-                u.setNome(rs.getString("nome"));
-                u.setEmail(rs.getString("email"));
-                u.setTelefone(rs.getString("telefone"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
                 
                 usuarios.add(u);
             }
@@ -68,9 +76,8 @@ public class UsuarioDAO {
                 Usuario u = new Usuario();
                 
                 u.setId(rs.getInt("id"));
-                u.setNome(rs.getString("nome"));
-                u.setEmail(rs.getString("email"));
-                u.setTelefone(rs.getString("telefone"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
                 
                 return u;
                 }
@@ -83,15 +90,14 @@ public class UsuarioDAO {
     }
     
     public void atualizar(Usuario u){
-        String sql = "UPDATE usuario SET nome = ?, email = ?, telefone = ?  WHERE id = ?";
+        String sql = "UPDATE usuario SET usuario = ?, senha = ? WHERE id = ?";
         
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, u.getNome());
-            stmt.setString(2, u.getEmail());
-            stmt.setString(3, u.getTelefone());
-            stmt.setInt(4, u.getId());
+            stmt.setString(1, u.getUsuario());
+            stmt.setString(2, u.getSenha());
+            stmt.setInt(3, u.getId());
             
             stmt.executeUpdate();
             
@@ -113,5 +119,33 @@ public class UsuarioDAO {
         } catch(SQLException erro){
             System.out.println("Erro ao excluir os dados! " + erro.getMessage());
         } 
+    }
+    
+    public Usuario autenticar(String usuario, String senha) {
+        String sql = "SELECT * FROM usuario WHERE usuario = ? AND senha = ?";
+
+        try (Connection conn = new Conexao().conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, usuario);
+            stmt.setString(2, senha);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Usuario u = new Usuario();
+
+                u.setId(rs.getInt("id"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
+
+                return u;
+            }
+
+        } catch (SQLException erro) {
+            System.out.println("Erro ao autenticar Usuário: " + erro.getMessage());
+        }
+
+        return null;
     }
 }

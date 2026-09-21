@@ -7,21 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Funcionario;
+import model.Usuario;
 import util.Conexao;
 
 public class FuncionarioDAO {
 
 
     public void salvar(Funcionario f){
-        String sql = "INSERT INTO funcionario(nome, cargo, usuario, senha) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO funcionario(nome, cargo, id_usuario) VALUES(?,?,?)";
         
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, f.getNome());
             stmt.setString(2, f.getCargo());
-            stmt.setString(3, f.getUsuario());
-            stmt.setString(4, f.getSenha());
+            stmt.setInt(3, f.getUsuario().getId());
             
             stmt.executeUpdate();
 
@@ -31,7 +31,11 @@ public class FuncionarioDAO {
     }
     
     public List<Funcionario> listar(){
-        String sql = "SELECT * FROM funcionario";
+        String sql = "SELECT f.id, f.nome, f.cargo, u.id "
+                + "AS usuario_id, u.usuario, u.senha "
+                + "FROM funcionario f "
+                + "JOIN usuario u ON f.id_usuario = u.id";
+        
         List<Funcionario> funcionarios = new ArrayList<>();
         
         try(Connection conn = new Conexao().conectar();
@@ -40,12 +44,16 @@ public class FuncionarioDAO {
             
             while(rs.next()){
                 Funcionario f = new Funcionario();
+                Usuario u = new Usuario();
+                
+                u.setId(rs.getInt("usuario_id"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
                 
                 f.setId(rs.getInt("id"));
                 f.setNome(rs.getString("nome"));
                 f.setCargo(rs.getString("cargo"));
-                f.setUsuario(rs.getString("usuario"));
-                f.setSenha(rs.getString("senha"));
+                f.setUsuario(u);
                 
                 funcionarios.add(f);
             }
@@ -56,7 +64,11 @@ public class FuncionarioDAO {
     }
     
     public Funcionario buscarPorId(int id){
-        String sql = "SELECT * FROM funcionario WHERE id = ?";
+        String sql = "SELECT f.id, f.nome, f.cargo, u.id "
+                + "AS usuario_id, u.usuario, u.senha "
+                + "FROM funcionario f "
+                + "JOIN usuario u ON f.id_usuario = u.id "
+                + "WHERE f.id = ?";
         
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -67,12 +79,16 @@ public class FuncionarioDAO {
             
             if(rs.next()){
                 Funcionario f = new Funcionario();
+                Usuario u = new Usuario();
+                
+                u.setId(rs.getInt("usuario_id"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
                 
                 f.setId(rs.getInt("id"));
                 f.setNome(rs.getString("nome"));
                 f.setCargo(rs.getString("cargo"));
-                f.setUsuario(rs.getString("usuario"));
-                f.setSenha(rs.getString("senha"));
+                f.setUsuario(u);
                 
                 return f;
              }
@@ -83,17 +99,55 @@ public class FuncionarioDAO {
         return null;
     }
     
+    public Funcionario buscarPorUsuarioId(int idUsuario){
+        String sql = "SELECT f.id, f.nome, f.cargo, u.id "
+                + "AS usuario_id, u.usuario, u.senha "
+                + "FROM funcionario f "
+                + "JOIN usuario u ON f.id_usuario = u.id "
+                + "WHERE f.id_usuario = ?";
+
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idUsuario);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+
+                if(rs.next()){
+                    Funcionario f = new Funcionario();
+                    Usuario u = new Usuario();
+
+                    u.setId(rs.getInt("usuario_id"));
+                    u.setUsuario(rs.getString("usuario"));
+                    u.setSenha(rs.getString("senha"));
+
+                    f.setId(rs.getInt("id"));
+                    f.setNome(rs.getString("nome"));
+                    f.setCargo(rs.getString("cargo"));
+                    f.setUsuario(u);
+
+                    return f;
+                }
+            }
+
+        } catch(SQLException erro){
+            System.out.println("Erro ao buscar funcionário por usuário: " + erro.getMessage());
+        }
+
+        return null;
+    }
+    
+    
     public void atualizar(Funcionario f){
-        String sql = "UPDATE funcionario SET nome = ?, cargo = ?, usuario = ?, senha = ? WHERE id = ?";
+        String sql = "UPDATE funcionario SET nome = ?, cargo = ?, id_usuario = ? WHERE id = ?";
         
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, f.getNome());
             stmt.setString(2, f.getCargo());
-            stmt.setString(3, f.getUsuario());
-            stmt.setString(4, f.getSenha());
-            stmt.setInt(5, f.getId());
+            stmt.setInt(3, f.getUsuario().getId());
+            stmt.setInt(4, f.getId());
             
             stmt.executeUpdate();
             
@@ -117,33 +171,4 @@ public class FuncionarioDAO {
         }
     }
     
-    public Funcionario autenticar(String usuario, String senha) {
-        String sql = "SELECT * FROM funcionario WHERE usuario = ? AND senha = ?";
-    
-
-        try(Connection conn = new Conexao().conectar();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, usuario);
-            stmt.setString(2, senha);
-
-            try(ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                Funcionario f = new Funcionario();
-
-                f.setId(rs.getInt("id"));
-                f.setNome(rs.getString("nome"));
-                f.setCargo(rs.getString("cargo"));
-                f.setUsuario(rs.getString("usuario"));
-                f.setSenha(rs.getString("senha"));
-
-                return f;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao autenticar: " + e.getMessage());
-        }
-            return null;
-    }
 }

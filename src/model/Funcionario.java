@@ -5,26 +5,17 @@ public class Funcionario {
     private int id;
     private String nome;
     private String cargo;
-    private String usuario;
-    private String senha;
+    private Usuario usuario;
 
     public Funcionario() {
     }
 
-    public String getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public int getId() {
@@ -50,7 +41,5 @@ public class Funcionario {
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
-
-
 
 }

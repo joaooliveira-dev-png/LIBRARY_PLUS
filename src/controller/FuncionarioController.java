@@ -1,38 +1,43 @@
 package controller;
 
 import dao.FuncionarioDAO;
+import dao.UsuarioDAO;
 import java.util.List;
 import model.Funcionario;
 
 public class FuncionarioController {
     
-    private FuncionarioDAO dao;
+    private FuncionarioDAO daoFuncionario;
+    private UsuarioDAO daoUsuario;
 
     public FuncionarioController() {
-        dao = new FuncionarioDAO();
-    }
-    
-    public Funcionario autenticar(String usuario, String senha){
-        return dao.autenticar(usuario, senha);
+        daoFuncionario = new FuncionarioDAO();
+        daoUsuario = new UsuarioDAO();
     }
     
     public void cadastrar(Funcionario funcionario){
-        dao.salvar(funcionario);
+        daoUsuario.salvar(funcionario.getUsuario());
+        daoFuncionario.salvar(funcionario);
     }
     
     public List<Funcionario> listar(){
-        return dao.listar();
+        return daoFuncionario.listar();
     }
         
     public Funcionario buscarPorId(int id){
-        return dao.buscarPorId(id);
+        return daoFuncionario.buscarPorId(id);
+    }
+    
+    public Funcionario buscarPorUsuarioId(int idUsuario){
+        return daoFuncionario.buscarPorUsuarioId(idUsuario);
     }
     
     public void atualizar(Funcionario funcionario){
-        dao.atualizar(funcionario);
+        daoUsuario.atualizar(funcionario.getUsuario());
+        daoFuncionario.atualizar(funcionario);
     }
     
     public void excluir(int id){
-        dao.excluir(id);
+        daoFuncionario.excluir(id);
     }
 }

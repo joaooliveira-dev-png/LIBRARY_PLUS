@@ -12,6 +12,10 @@ public class UsuarioController {
         dao = new UsuarioDAO();
     }
     
+    public Usuario autenticar(String usuario, String senha){
+        return dao.autenticar(usuario, senha);
+    }
+    
     public void cadastrar(Usuario usuario){
         dao.salvar(usuario);
     }
@@ -24,7 +28,7 @@ public class UsuarioController {
         return dao.buscarPorId(id);
     }
     
-    public void atuzalizar(Usuario usuario){
+    public void atualizar(Usuario usuario){
         dao.atualizar(usuario);
     }
     

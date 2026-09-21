@@ -7,7 +7,7 @@ package view;
 import controller.FuncionarioController;
 import javax.swing.JOptionPane;
 import model.Funcionario;
-import model.Livro;
+import model.Usuario;
 
 /**
  *
@@ -33,8 +33,8 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         
         txtNome.setText(funcionario.getNome());
         txtCargo.setText(funcionario.getCargo());
-        txtUsuario.setText(funcionario.getUsuario());
-        txtSenha.setText(funcionario.getSenha());
+        txtUsuario.setText(funcionario.getUsuario().getUsuario());
+        txtSenha.setText(funcionario.getUsuario().getSenha());
         
         btSalvar.setText("Atualizar");
     }
@@ -189,11 +189,14 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         
         
         Funcionario f = new Funcionario();
+        Usuario u = new Usuario();
+        
+        u.setUsuario(usuario);
+        u.setSenha(senha);
         
         f.setNome(nome);
         f.setCargo(cargo);
-        f.setUsuario(usuario);
-        f.setSenha(senha);
+        f.setUsuario(u);
         
         if(funcionarioEdicao == null){
             
@@ -204,10 +207,11 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         } else {
             
             f.setId(funcionarioEdicao.getId());
+            u.setId(funcionarioEdicao.getUsuario().getId());
             
             controller.atualizar(f);
             
-            JOptionPane.showMessageDialog(this, "Livro atualizado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Funcionário atualizado com sucesso!");
         }
         
         txtNome.setText("");

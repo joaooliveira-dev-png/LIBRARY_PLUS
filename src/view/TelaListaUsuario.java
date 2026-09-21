@@ -42,9 +42,8 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         for(Usuario u : usuarios){
             model.addRow(new Object[]{
                 u.getId(),
-                u.getNome(),
-                u.getEmail(),
-                u.getEmail()
+                u.getUsuario(),
+                u.getSenha(),
             });
         }
     }
@@ -62,7 +61,6 @@ public class TelaListaUsuario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaUsuario = new javax.swing.JTable();
         btVoltar = new javax.swing.JButton();
-        btAtualizar = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
         lbBuscarID = new javax.swing.JLabel();
         txtBuscarID = new javax.swing.JTextField();
@@ -77,11 +75,11 @@ public class TelaListaUsuario extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome", "E-mail", "Telefone"
+                "ID", "Usuário", "Senha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -92,10 +90,6 @@ public class TelaListaUsuario extends javax.swing.JFrame {
 
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
-
-        btAtualizar.setBackground(new java.awt.Color(51, 153, 82));
-        btAtualizar.setText("Atualizar");
-        btAtualizar.addActionListener(this::btAtualizarActionPerformed);
 
         lbTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         lbTitulo.setText("LISTA USUÁRIOS");
@@ -126,8 +120,6 @@ public class TelaListaUsuario extends javax.swing.JFrame {
                 .addComponent(btMostrar)
                 .addGap(18, 18, 18)
                 .addComponent(btExcluir)
-                .addGap(16, 16, 16)
-                .addComponent(btAtualizar)
                 .addGap(18, 18, 18)
                 .addComponent(btVoltar)
                 .addGap(38, 38, 38))
@@ -158,7 +150,6 @@ public class TelaListaUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btVoltar)
-                    .addComponent(btAtualizar)
                     .addComponent(btMostrar)
                     .addComponent(btExcluir))
                 .addContainerGap())
@@ -177,28 +168,6 @@ public class TelaListaUsuario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        int linhaSelecionada = tabelaUsuario.getSelectedRow();
-        
-        if(linhaSelecionada  == -1){
-            JOptionPane.showMessageDialog(this, "Selecione um livro para atualizar");
-            return;
-        }
-        
-        int id = (int) tabelaUsuario.getValueAt(linhaSelecionada, 0);
-        
-        Usuario usuario = controller.buscarPorId(id);
-        
-        if(usuario == null){
-            JOptionPane.showMessageDialog(this, "Usuario não encontrado");
-            return;
-        }
-        
-        TelaCadastroUsuario tela = new TelaCadastroUsuario(usuario);
-        tela.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         TelaMenu tela = new TelaMenu();
@@ -229,9 +198,8 @@ public class TelaListaUsuario extends javax.swing.JFrame {
            if(usuario != null){ 
                model.addRow(new Object[]{
                 usuario.getId(),
-                usuario.getNome(),
-                usuario.getEmail(),
-                usuario.getTelefone()
+                usuario.getUsuario(),
+                usuario.getSenha(),
                 });
             } else {
                JOptionPane.showMessageDialog(this, "Usuario não encontrado");
@@ -301,7 +269,6 @@ public class TelaListaUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btBuscarID;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btMostrar;
