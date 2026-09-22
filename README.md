@@ -20,6 +20,9 @@ O projeto também foi desenvolvido como prática de conceitos de desenvolvimento
 
 ## 📚 Funcionalidades
 
+## Desenvolvedor
+- João Vitor
+
 ### Autenticação
 - Login de funcionários
 - Validação de usuário e senha
