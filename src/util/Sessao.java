@@ -1,20 +1,20 @@
 package util;
 
-import model.Funcionario;
+import model.Usuario;
 
 public class Sessao {
     
-    private static Funcionario funcionarioLogado;
+    private static Usuario usuarioLogado;
     
-    public static void setFuncionarioLogado(Funcionario f){
-        funcionarioLogado = f;
+    public static void setUsuarioLogado(Usuario u){
+        usuarioLogado = u;
     }
     
-    public static Funcionario getFuncionarioLogado(){
-        return funcionarioLogado;
+    public static Usuario getUsuarioLogado(){
+        return usuarioLogado;
     }
     
     public static void encerrarSessao(){
-        funcionarioLogado = null;
+        usuarioLogado = null;
     }
 }

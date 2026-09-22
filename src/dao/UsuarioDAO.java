@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,156 +12,140 @@ import util.Conexao;
 
 public class UsuarioDAO {
     
-    private Conexao conexao;
-    private Connection conn;
 
-    public UsuarioDAO() {
-        this.conexao = new Conexao();
-        this.conn = this.conexao.conectar();
-    }
-    
-    PreparedStatement stmt;
-    
-    public void salvar(Usuario u){
-        String sql = "INSERT INTO usuario(nome, email, telefone) VALUES(?,?,?)";
+    public int salvar(Usuario u){
+        String sql = "INSERT INTO usuario(usuario, senha) VALUES(?,?)";
         
-        try{
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
-            stmt.setString(1, u.getNome());
-            stmt.setString(2, u.getEmail());
-            stmt.setString(3, u.getTelefone());
+            stmt.setString(1, u.getUsuario());
+            stmt.setString(2, u.getSenha());
             
-            stmt.execute();
-        }catch(SQLException erro){
-            System.out.println("Erro, verifique os valores digitados : " + erro.getMessage());
-        } finally {
-            try{
-                if(stmt != null){
-                    stmt.close();
-                }
-            }catch(SQLException erro){
-                System.out.println("Erro ao fechar a Statement: " + erro.getMessage());
+            stmt.executeUpdate();
+            
+            ResultSet rs = stmt.getGeneratedKeys();
+            
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                u.setId(id);
+                return id;
             }
+            
+        }catch(SQLException erro){
+            System.out.println("Erro ao salvar Usuário : " + erro.getMessage());
         }
+        return 0;
     }
+    
     
     public List<Usuario> listar(){
         String sql = "SELECT * FROM usuario";
         List<Usuario> usuarios = new ArrayList<>();
-        ResultSet rs = null;
         
-        try{
-            stmt = conn.prepareStatement(sql);
-            
-            rs = stmt.executeQuery();
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()){
             
             while(rs.next()){
                 Usuario u = new Usuario();
                 
                 u.setId(rs.getInt("id"));
-                u.setNome(rs.getString("nome"));
-                u.setEmail(rs.getString("email"));
-                u.setTelefone(rs.getString("telefone"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
                 
                 usuarios.add(u);
             }
         } catch(SQLException erro){
             System.out.println("Erro ao listar todos os usuários! Tente novamente: " + erro.getMessage());
-        } finally {
-            try{
-                if(stmt != null){
-                    stmt.close();
-                }
-                if(rs != null){
-                    rs.close();
-                }
-            } catch(SQLException erro){
-                System.out.println("Erro ao fechar recursos: " + erro.getMessage());
-            }
-        }
+        } 
         return usuarios;
     }
     
-    public Usuario listarPorId(int id){
+    public Usuario buscarPorId(int id){
         String sql = "SELECT * FROM usuario WHERE id = ?";
-        ResultSet rs = null;
         
-        try{
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, id);
-            rs = stmt.executeQuery();
+            
+            try(ResultSet rs = stmt.executeQuery()){
             
             if(rs.next()){
                 Usuario u = new Usuario();
                 
                 u.setId(rs.getInt("id"));
-                u.setNome(rs.getString("nome"));
-                u.setEmail(rs.getString("email"));
-                u.setTelefone(rs.getString("telefone"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
                 
                 return u;
+                }
             }
+            
         }catch(SQLException erro){
-            System.out.println("Erro ao buscar usuario por ID: " + erro.getMessage());
-        } finally{
-            try{
-                if(rs != null){
-                    rs.close();
-                }
-                if(stmt != null){
-                    stmt.close();
-                }
-            }catch(SQLException erro){
-                System.out.println("Erro ao fechar recursos: " + erro.getMessage());
-            }
+            System.out.println("Erro ao buscar usuário por ID: " + erro.getMessage());
         }
         return null;
     }
     
     public void atualizar(Usuario u){
-        String sql = "UPDATE usuario SET nome = ?, email = ?, telefone = ?  WHERE id = ?";
+        String sql = "UPDATE usuario SET usuario = ?, senha = ? WHERE id = ?";
         
-        try{
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, u.getNome());
-            stmt.setString(2, u.getEmail());
-            stmt.setString(3, u.getTelefone());
-            stmt.setInt(4, u.getId());
+            stmt.setString(1, u.getUsuario());
+            stmt.setString(2, u.getSenha());
+            stmt.setInt(3, u.getId());
             
             stmt.executeUpdate();
+            
         } catch(SQLException erro){
             System.out.println("Erro ao atualizar: " + erro.getMessage());
-        } finally {
-            try{
-                if(stmt != null){
-                    stmt.close();
-                }
-            } catch(SQLException erro){
-                System.out.println("Erro ao fechar recursos: " + erro.getMessage());
-            }
-        }
+        } 
     }
     
     public void excluir(int id){
         String sql = "DELETE FROM usuario WHERE id = ?";
         
-        try{
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setInt(1, id);
+
             stmt.executeUpdate();
+
         } catch(SQLException erro){
             System.out.println("Erro ao excluir os dados! " + erro.getMessage());
-        } finally{
-            try{
-                if(stmt != null){
-                    stmt.close();
-                }
-            } catch(SQLException erro){
-                System.out.println("Erro ao fechar Statement: " + erro.getMessage());
+        } 
+    }
+    
+    public Usuario autenticar(String usuario, String senha) {
+        String sql = "SELECT * FROM usuario WHERE usuario = ? AND senha = ?";
+
+        try (Connection conn = new Conexao().conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, usuario);
+            stmt.setString(2, senha);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Usuario u = new Usuario();
+
+                u.setId(rs.getInt("id"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setSenha(rs.getString("senha"));
+
+                return u;
             }
+
+        } catch (SQLException erro) {
+            System.out.println("Erro ao autenticar Usuário: " + erro.getMessage());
         }
+
+        return null;
     }
 }

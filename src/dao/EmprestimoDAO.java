@@ -11,20 +11,13 @@ import util.Conexao;
 
 public class EmprestimoDAO {
 
-    private Conexao conexao;
-    private Connection conn;
-    private PreparedStatement stmt;
-
-    public EmprestimoDAO() {
-        this.conexao = new Conexao();
-        this.conn = this.conexao.conectar();
-    }
 
     public void salvar(Emprestimo e) {
-        String sql = "INSERT INTO emprestimo(data_emprestimo, data_devolucao, status, id_usuario, id_livro, id_funcionario) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO emprestimo(data_emprestimo, data_devolucao, status, id_usuario, id_livro, id_funcionario)"
+                + " VALUES(?,?,?,?,?,?)";
 
-        try {
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, e.getDataEmprestimo());
             stmt.setString(2, e.getDataDevolucao());
@@ -36,29 +29,17 @@ public class EmprestimoDAO {
             stmt.executeUpdate();
 
         } catch (SQLException erro) {
-            System.out.println("Erro ao salvar empréstimo: " + erro.getMessage());
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException erro) {
-                System.out.println("Erro ao fechar Statement: " + erro.getMessage());
-            }
-        }
+            System.out.println("Erro ao salvar empréstimo : " + erro.getMessage());
+        } 
     }
 
     public List<Emprestimo> listar() {
-
         String sql = "SELECT * FROM emprestimo";
-
         List<Emprestimo> emprestimos = new ArrayList<>();
-        ResultSet rs = null;
 
-        try {
-
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
 
@@ -76,40 +57,20 @@ public class EmprestimoDAO {
             }
 
         } catch (SQLException erro) {
-            System.out.println("Erro ao listar empréstimos: " + erro.getMessage());
-        } finally {
-
-            try {
-
-                if (rs != null) {
-                    rs.close();
-                }
-
-                if (stmt != null) {
-                    stmt.close();
-                }
-
-            } catch (SQLException erro) {
-                System.out.println("Erro ao fechar recursos: " + erro.getMessage());
-            }
-
-        }
-
+            System.out.println("Erro ao listar empréstimos : " + erro.getMessage());
+        } 
         return emprestimos;
     }
 
-    public Emprestimo listarPorId(int id) {
-
+    public Emprestimo buscarPorId(int id) {
         String sql = "SELECT * FROM emprestimo WHERE id = ?";
 
-        ResultSet rs = null;
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try {
-
-            stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
 
-            rs = stmt.executeQuery();
+            try(ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
 
@@ -124,69 +85,51 @@ public class EmprestimoDAO {
                 e.setIdFuncionario(rs.getInt("id_funcionario"));
 
                 return e;
+                }
             }
-
         } catch (SQLException erro) {
-            System.out.println("Erro ao buscar empréstimo: " + erro.getMessage());
-        } finally {
-
-            try {
-
-                if (rs != null) {
-                    rs.close();
-                }
-
-                if (stmt != null) {
-                    stmt.close();
-                }
-
-            } catch (SQLException erro) {
-                System.out.println("Erro ao fechar recursos: " + erro.getMessage());
-            }
-
-        }
-
+            System.out.println("Erro ao buscar empréstimo : " + erro.getMessage());
+        } 
         return null;
     }
     
     public List<Emprestimo> buscarPorPeriodo(String dataInicial, String dataFinal) {
-    List<Emprestimo> lista = new ArrayList<>();
+        String sql = "SELECT * FROM emprestimo WHERE data_emprestimo BETWEEN ? AND ?";
+        List<Emprestimo> lista = new ArrayList<>();
 
-    String sql = "SELECT * FROM emprestimo WHERE data_emprestimo BETWEEN ? AND ?";
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    try {
-        stmt = conn.prepareStatement(sql);
-        
-        stmt.setString(1, dataInicial);
-        stmt.setString(2, dataFinal);
+            stmt.setString(1, dataInicial);
+            stmt.setString(2, dataFinal);
 
-        ResultSet rs = stmt.executeQuery();
+            try(ResultSet rs = stmt.executeQuery()) {
 
-        while(rs.next()){
-            Emprestimo e = new Emprestimo();
-            e.setIdUsuario(rs.getInt("idUsuario"));
-            e.setIdLivro(rs.getInt("idLivro"));
-            e.setDataEmprestimo(rs.getString("data_emprestimo"));
-            e.setDataDevolucao(rs.getString("data_devolucao"));
-            e.setStatus(rs.getString("status"));
+            while(rs.next()){
+                Emprestimo e = new Emprestimo();
+                e.setIdUsuario(rs.getInt("id_usuario"));
+                e.setIdLivro(rs.getInt("id_livro"));
+                e.setDataEmprestimo(rs.getString("data_emprestimo"));
+                e.setDataDevolucao(rs.getString("data_devolucao"));
+                e.setStatus(rs.getString("status"));
 
-            lista.add(e);
+                lista.add(e);
+                }
+            }
+        } catch(SQLException erro){
+            System.out.println("Erro ao buscar por período : " + erro.getMessage());
         }
 
-    } catch(Exception e){
-        e.printStackTrace();
+        return lista;
     }
 
-    return lista;
-}
-
     public void atualizar(Emprestimo e) {
+        String sql = "UPDATE emprestimo SET data_emprestimo = ?, data_devolucao = ?,"
+                + " status = ?, id_usuario = ?, "
+                + "id_livro = ?, id_funcionario = ? WHERE id = ?";
 
-        String sql = "UPDATE emprestimo SET data_emprestimo = ?, data_devolucao = ?, status = ?, id_usuario = ?, id_livro = ?, id_funcionario = ? WHERE id = ?";
-
-        try {
-
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, e.getDataEmprestimo());
             stmt.setString(2, e.getDataDevolucao());
@@ -199,48 +142,22 @@ public class EmprestimoDAO {
             stmt.executeUpdate();
 
         } catch (SQLException erro) {
-            System.out.println("Erro ao atualizar empréstimo: " + erro.getMessage());
-        } finally {
-
-            try {
-
-                if (stmt != null) {
-                    stmt.close();
-                }
-
-            } catch (SQLException erro) {
-                System.out.println("Erro ao fechar recursos: " + erro.getMessage());
-            }
-
-        }
+            System.out.println("Erro ao atualizar empréstimo : " + erro.getMessage());
+        } 
     }
 
     public void excluir(int id) {
-
         String sql = "DELETE FROM emprestimo WHERE id = ?";
 
-        try {
-
-            stmt = conn.prepareStatement(sql);
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
 
             stmt.executeUpdate();
 
         } catch (SQLException erro) {
-            System.out.println("Erro ao excluir empréstimo: " + erro.getMessage());
-        } finally {
-
-            try {
-
-                if (stmt != null) {
-                    stmt.close();
-                }
-
-            } catch (SQLException erro) {
-                System.out.println("Erro ao fechar Statement: " + erro.getMessage());
-            }
-
-        }
+            System.out.println("Erro ao excluir empréstimo : " + erro.getMessage());
+        } 
     }
 }

@@ -4,13 +4,11 @@
  */
 package view;
 
-import dao.EmprestimoDAO;
-import dao.LivroDAO;
-import dao.UsuarioDAO;
+import controller.EmprestimoController;
+import controller.FuncionarioController;
 import javax.swing.JOptionPane;
 import model.Emprestimo;
 import model.Funcionario;
-import model.Livro;
 import model.Usuario;
 import util.Sessao;
 
@@ -18,14 +16,14 @@ import util.Sessao;
  *
  * @author joaovitor
  */
-public class TelaEmprestimo extends javax.swing.JFrame {
+public class TelaCadastroEmprestimo extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaEmprestimo.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastroEmprestimo.class.getName());
 
     /**
      * Creates new form TelaEmprestimo
      */
-    public TelaEmprestimo() {
+    public TelaCadastroEmprestimo() {
         initComponents();
     }
 
@@ -54,6 +52,7 @@ public class TelaEmprestimo extends javax.swing.JFrame {
         btRegistrar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
+        btListar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +91,10 @@ public class TelaEmprestimo extends javax.swing.JFrame {
         btVoltar.setText("Voltar");
         btVoltar.addActionListener(this::btVoltarActionPerformed);
 
+        btListar.setBackground(new java.awt.Color(51, 102, 255));
+        btListar.setText("Listar");
+        btListar.addActionListener(this::btListarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -107,29 +110,30 @@ public class TelaEmprestimo extends javax.swing.JFrame {
                         .addGap(99, 99, 99)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbDataEmprestimo)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btRegistrar)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btLimpar)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btVoltar)
-                                    .addGap(21, 21, 21))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtDataEmprestimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lbUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lbLivro))
-                                        .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtLivro, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addGap(37, 37, 37)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(lbStatus)
-                                        .addComponent(lbDataDevolucao)
-                                        .addComponent(txtDataDevolucao)
-                                        .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))))))
-                .addContainerGap(142, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(btRegistrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btLimpar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btListar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btVoltar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtDataEmprestimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lbLivro))
+                                    .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtLivro, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(37, 37, 37)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbStatus)
+                                    .addComponent(lbDataDevolucao)
+                                    .addComponent(txtDataDevolucao)
+                                    .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))))))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +166,8 @@ public class TelaEmprestimo extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btRegistrar)
                     .addComponent(btLimpar)
-                    .addComponent(btVoltar))
+                    .addComponent(btVoltar)
+                    .addComponent(btListar))
                 .addGap(30, 30, 30))
         );
 
@@ -206,53 +211,43 @@ public class TelaEmprestimo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Os IDs precisam ser números inteiros");
             return;
         }
-        
-        UsuarioDAO daoUser = new UsuarioDAO();
-        Usuario u = daoUser.listarPorId(usuarioInt);
-            
-        if(u == null){
-            JOptionPane.showMessageDialog(this, "Usuário não encontrado");
+
+         Usuario usuarioLogado = Sessao.getUsuarioLogado();
+
+        FuncionarioController funcionarioController = new FuncionarioController();
+        Funcionario funcionario = funcionarioController.buscarPorUsuarioId(usuarioLogado.getId());
+
+        if(funcionario == null){
+            JOptionPane.showMessageDialog(this, "Funcionário não encontrado.");
             return;
         }
-        
-        LivroDAO daoBook = new LivroDAO();
-        Livro l = daoBook.listarPorId(livroInt);
-        
-        if(l == null){
-            JOptionPane.showMessageDialog(this, "Livro não encontrado");
-            return;
-        }
-        
-        if(l.getQuantidade() <= 0){
-            JOptionPane.showMessageDialog(this, "Não há exemplares disponiveis deste livro");
-            return;
-        }
-        
-        Funcionario fun = Sessao.getFuncionarioLogado();
-        
-        EmprestimoDAO daoEm = new EmprestimoDAO();
-        Emprestimo em = new Emprestimo();
-        
-        em.setIdUsuario(usuarioInt);
-        em.setIdLivro(livroInt);
-        em.setIdFuncionario(fun.getId());
-        em.setDataEmprestimo(dataEm);
-        em.setDataDevolucao(dataDe);
-        em.setStatus(status);
-        
-        daoEm.salvar(em);
-        
-        l.setQuantidade(l.getQuantidade() - 1);
-        daoBook.atualizar(l);
-        
-        txtUsuario.setText("");
-        txtLivro.setText("");
-        txtDataEmprestimo.setText("");
-        txtDataDevolucao.setText("");
-        txtStatus.setText("");
-        txtUsuario.requestFocus();
-        
-        JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
+
+         Emprestimo em = new Emprestimo();
+
+         em.setIdUsuario(usuarioInt);
+         em.setIdLivro(livroInt);
+         em.setIdFuncionario(funcionario.getId());
+         em.setDataEmprestimo(dataEm);
+         em.setDataDevolucao(dataDe);
+         em.setStatus(status);
+
+         EmprestimoController controller = new EmprestimoController();
+
+         try {
+             controller.registrarEmprestimo(em);
+
+             JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
+
+             txtUsuario.setText("");
+             txtLivro.setText("");
+             txtDataEmprestimo.setText("");
+             txtDataDevolucao.setText("");
+             txtStatus.setText("");
+             txtUsuario.requestFocus();
+
+         } catch (IllegalArgumentException erro) {
+             JOptionPane.showMessageDialog(this, erro.getMessage());
+         }
     }//GEN-LAST:event_btRegistrarActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
@@ -269,6 +264,12 @@ public class TelaEmprestimo extends javax.swing.JFrame {
         menu.setVisible(true);
         dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
+
+    private void btListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btListarActionPerformed
+        TelaListaEmprestimo tela = new TelaListaEmprestimo();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btListarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,11 +293,12 @@ public class TelaEmprestimo extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new TelaEmprestimo().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TelaCadastroEmprestimo().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btListar;
     private javax.swing.JButton btRegistrar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;

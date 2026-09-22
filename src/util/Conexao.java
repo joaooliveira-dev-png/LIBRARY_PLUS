@@ -12,13 +12,7 @@ public class Conexao {
     private static final String PASSWORD = "";
     
     
-    public Connection conectar(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        }catch(ClassNotFoundException | SQLException erro){
-            System.out.println("Erro ao conectar com o Banco de Dados : " + erro.getMessage());
-            return null;
-        }
+    public Connection conectar() throws SQLException{
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
